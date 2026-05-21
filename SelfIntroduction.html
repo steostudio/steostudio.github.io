@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>hi, i'm here ✺</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Caveat:wght@400;700&family=JetBrains+Mono:wght@400;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f2ede4;
+    --paper-dark:#e8e1d4;
+    --ink:#252320;
+    --ink-soft:#5a544a;
+    --muted:#8a8275;
+    --accent:#c24a1f;
+    --accent-soft:#d98c5f;
+    --highlight:#f5d547;
+    --sky:#6b8ca8;
+    --moss:#7a8450;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Fraunces',serif;
+    background:var(--paper);
+    color:var(--ink);
+    line-height:1.6;
+    overflow-x:hidden;
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(194,74,31,.04) 0%, transparent 40%),
+      radial-gradient(circle at 80% 70%, rgba(107,140,168,.04) 0%, transparent 40%);
+  }
+
+  /* paper grain */
+  body::before{
+    content:"";
+    position:fixed;inset:0;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity:.08;
+    pointer-events:none;
+    z-index:9999;
+    mix-blend-mode:multiply;
+  }
+
+  /* ========== NAV ========== */
+  nav{
+    padding:24px 6vw;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-family:'JetBrains Mono',monospace;
+    font-size:13px;
+    border-bottom:1px dashed var(--muted);
+  }
+  nav .brand{
+    font-family:'Instrument Serif',serif;
+    font-size:22px;
+    font-style:italic;
+  }
+  nav ul{
+    display:flex;gap:28px;
+    list-style:none;
+  }
+  nav a{
+    color:var(--ink-soft);
+    text-decoration:none;
+    transition:color .2s;
+    position:relative;
+  }
+  nav a:hover{color:var(--accent)}
+  nav a:hover::after{
+    content:"";
+    position:absolute;
+    left:0;right:0;bottom:-4px;
+    height:2px;
+    background:var(--accent);
+    border-radius:2px;
+  }
+
+  /* ========== HERO ========== */
+  .hero{
+    padding:80px 6vw 120px;
+    position:relative;
+    max-width:1400px;
+    margin:0 auto;
+  }
+  .hero .hi{
+    font-family:'Caveat',cursive;
+    font-size:32px;
+    color:var(--accent);
+    transform:rotate(-3deg);
+    display:inline-block;
+    margin-bottom:10px;
+  }
+  .hero h1{
+    font-family:'Fraunces',serif;
+    font-weight:900;
+    font-size:clamp(56px,9vw,140px);
+    line-height:.95;
+    letter-spacing:-.03em;
+    max-width:1100px;
+  }
+  .hero h1 em{
+    font-family:'Instrument Serif',serif;
+    font-style:italic;
+    font-weight:400;
+    color:var(--accent);
+  }
+  .hero h1 .wave{
+    display:inline-block;
+    animation:wave 2.5s ease-in-out infinite;
+    transform-origin:70% 70%;
+  }
+  @keyframes wave{
+    0%,100%{transform:rotate(0)}
+    20%{transform:rotate(-12deg)}
+    40%{transform:rotate(10deg)}
+    60%{transform:rotate(-8deg)}
+    80%{transform:rotate(6deg)}
+  }
+  .hero .lead{
+    margin-top:40px;
+    font-size:22px;
+    line-height:1.65;
+    max-width:700px;
+    color:var(--ink-soft);
+  }
+  .hero .lead mark{
+    background:var(--highlight);
+    padding:0 6px;
+    color:var(--ink);
+  }
+  .hero .lead .underline{
+    text-decoration:none;
+    background-image:linear-gradient(var(--accent),var(--accent));
+    background-position:0 95%;
+    background-repeat:no-repeat;
+    background-size:100% 3px;
+  }
+
+  /* floating stickers */
+  .sticker{
+    position:absolute;
+    font-family:'Caveat',cursive;
+    font-size:18px;
+    background:var(--paper-dark);
+    padding:8px 14px;
+    border:1px solid var(--ink);
+    box-shadow:3px 3px 0 var(--ink);
+  }
+  .sticker-1{
+    top:120px;right:8vw;
+    background:var(--highlight);
+    transform:rotate(6deg);
+  }
+  .sticker-2{
+    bottom:140px;right:15vw;
+    background:var(--accent-soft);
+    color:var(--ink);
+    transform:rotate(-4deg);
+  }
+
+  /* ========== NOW PLAYING WIDGET ========== */
+  .now{
+    max-width:1400px;
+    margin:0 auto;
+    padding:0 6vw 80px;
+  }
+  .now-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+  }
+  .now-card{
+    background:var(--paper-dark);
+    border:1px solid var(--ink);
+    padding:20px;
+    position:relative;
+    transition:transform .25s;
+  }
+  .now-card:hover{transform:translateY(-4px) rotate(-1deg)}
+  .now-card .label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    letter-spacing:.1em;
+    color:var(--muted);
+    text-transform:uppercase;
+    margin-bottom:10px;
+  }
+  .now-card .thing{
+    font-family:'Instrument Serif',serif;
+    font-size:24px;
+    font-style:italic;
+    line-height:1.2;
+    margin-bottom:6px;
+  }
+  .now-card .by{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    color:var(--ink-soft);
+  }
+  .now-card .emoji{
+    position:absolute;
+    top:-12px;right:-12px;
+    font-size:28px;
+    background:var(--paper);
+    border:1px solid var(--ink);
+    width:40px;height:40px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transform:rotate(8deg);
+  }
+
+  /* ========== ABOUT ========== */
+  .about{
+    background:var(--ink);
+    color:var(--paper);
+    padding:120px 6vw;
+    position:relative;
+  }
+  .about-inner{
+    max-width:1400px;
+    margin:0 auto;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:80px;
+    align-items:start;
+  }
+  .about h2{
+    font-family:'Fraunces',serif;
+    font-weight:900;
+    font-size:clamp(48px,7vw,96px);
+    line-height:.95;
+    letter-spacing:-.02em;
+    margin-bottom:30px;
+  }
+  .about h2 em{
+    font-family:'Instrument Serif',serif;
+    font-style:italic;
+    font-weight:400;
+    color:var(--accent-soft);
+  }
+  .about-text{
+    font-size:19px;
+    line-height:1.75;
+    color:var(--paper-dark);
+  }
+  .about-text p{margin-bottom:20px}
+  .about-text strong{
+    color:var(--paper);
+    font-weight:700;
+  }
+  .about-text .handwrite{
+    font-family:'Caveat',cursive;
+    font-size:26px;
+    color:var(--highlight);
+    font-weight:700;
+  }
+  /* 核心：让外框收缩包裹图片 */
+.polaroid {
+    display: inline-block; /* 关键：让边框根据内容自动收缩 */
+    width: auto;           /* 确保宽度不是固定的 */
+    padding: 15px;         /* 拍立得的留白感 */
+    background: white;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+/* 保证图片不会大到飞起，但保持原始比例 */
+.photo img {
+    display: block;
+    max-width: 400px;      /* 你可以根据需要调整这个上限 */
+    height: auto;          /* 关键：保持原图比例，不拉伸 */
+}
+
+
+  /* polaroid */
+  .polaroid{
+    background:var(--paper);
+    padding:16px 16px 60px;
+    border:1px solid var(--ink-soft);
+    box-shadow:8px 8px 0 var(--accent);
+    transform:rotate(2deg);
+    position:relative;
+    max-width:360px;
+    justify-self:center;
+  }
+  .polaroid .photo{
+    width:100%;
+    aspect-ratio:4/5;
+    background:linear-gradient(135deg, var(--accent-soft), var(--accent), #7a3d2b);
+    position:relative;
+    overflow:hidden;
+  }
+  .polaroid .photo::before{
+    content:"☀";
+    position:absolute;
+    top:20px;left:20px;
+    font-size:40px;
+    color:var(--highlight);
+  }
+  .polaroid .photo::after{
+    content:"";
+    position:absolute;
+    bottom:0;left:0;right:0;height:40%;
+    background:linear-gradient(180deg, transparent, rgba(0,0,0,.3));
+  }
+  .polaroid .caption{
+    position:absolute;
+    bottom:20px;left:0;right:0;
+    text-align:center;
+    font-family:'Caveat',cursive;
+    font-size:22px;
+    color:var(--ink);
+  }
+  .polaroid .tape{
+    position:absolute;
+    top:-15px;left:50%;
+    transform:translateX(-50%) rotate(-2deg);
+    width:100px;height:30px;
+    background:rgba(245,213,71,.6);
+    border:1px solid rgba(0,0,0,.1);
+  }
+
+  /* ========== THINGS I LIKE ========== */
+  .likes{
+    padding:120px 6vw;
+    max-width:1500px;
+    margin:0 auto;
+  }
+  .likes h2{
+    font-family:'Fraunces',serif;
+    font-weight:900;
+    font-size:clamp(48px,7vw,96px);
+    line-height:.95;
+    letter-spacing:-.02em;
+    margin-bottom:20px;
+  }
+  .likes h2 em{
+    font-family:'Instrument Serif',serif;
+    font-style:italic;
+    font-weight:400;
+  }
+  .likes .sub{
+    font-family:'JetBrains Mono',monospace;
+    font-size:13px;
+    color:var(--muted);
+    margin-bottom:50px;
+    letter-spacing:.05em;
+  }
+  .tag-cloud{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+  }
+  .tag{
+    font-family:'Fraunces',serif;
+    font-size:18px;
+    padding:10px 20px;
+    border:1px solid var(--ink);
+    background:var(--paper);
+    transition:all .2s;
+    cursor:default;
+    position:relative;
+  }
+  .tag:hover{
+    background:var(--ink);
+    color:var(--paper);
+    transform:rotate(-2deg) scale(1.05);
+  }
+  .tag.big{
+    font-size:26px;
+    font-weight:700;
+  }
+  .tag.huge{
+    font-size:36px;
+    font-weight:900;
+    font-style:italic;
+    background:var(--accent);
+    color:var(--paper);
+    border-color:var(--accent);
+  }
+  .tag.accent{
+    background:var(--highlight);
+  }
+  .tag.sky{
+    background:var(--sky);
+    color:var(--paper);
+    border-color:var(--sky);
+  }
+  .tag.moss{
+    background:var(--moss);
+    color:var(--paper);
+    border-color:var(--moss);
+  }
+  .tag.hand{
+    font-family:'Caveat',cursive;
+    font-size:28px;
+    transform:rotate(-3deg);
+  }
+
+  /* ========== JOURNAL ========== */
+  .journal{
+    background:var(--paper-dark);
+    padding:120px 6vw;
+    position:relative;
+    border-top:1px dashed var(--muted);
+    border-bottom:1px dashed var(--muted);
+  }
+  .journal-inner{
+    max-width:1200px;
+    margin:0 auto;
+  }
+  .journal h2{
+    font-family:'Fraunces',serif;
+    font-weight:900;
+    font-size:clamp(48px,7vw,96px);
+    line-height:.95;
+    letter-spacing:-.02em;
+    margin-bottom:50px;
+  }
+  .journal h2 em{
+    font-family:'Instrument Serif',serif;
+    font-style:italic;
+    font-weight:400;
+    color:var(--accent);
+  }
+  .entries{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:30px;
+  }
+  .entry{
+    background:var(--paper);
+    padding:30px;
+    border:1px solid var(--ink);
+    position:relative;
+    transition:transform .3s;
+  }
+  .entry:nth-child(2){transform:rotate(1deg)}
+  .entry:nth-child(3){transform:rotate(-1.5deg)}
+  .entry:hover{
+    transform:translateY(-6px) rotate(0);
+    box-shadow:6px 6px 0 var(--ink);
+  }
+  .entry .date{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    color:var(--muted);
+    letter-spacing:.1em;
+    margin-bottom:16px;
+  }
+  .entry h3{
+    font-family:'Fraunces',serif;
+    font-size:26px;
+    font-weight:700;
+    line-height:1.2;
+    margin-bottom:14px;
+  }
+  .entry h3 em{
+    font-family:'Instrument Serif',serif;
+    font-style:italic;
+    font-weight:400;
+  }
+  .entry p{
+    font-size:16px;
+    color:var(--ink-soft);
+    line-height:1.6;
+  }
+  .entry .pin{
+    position:absolute;
+    top:-8px;right:30px;
+    width:16px;height:16px;
+    background:var(--accent);
+    border-radius:50%;
+    box-shadow:0 2px 4px rgba(0,0,0,.2);
+  }
+
+  /* ========== QUOTE ========== */
+  .quote{
+    padding:140px 6vw;
+    text-align:center;
+    max-width:1000px;
+    margin:0 auto;
+  }
+  .quote blockquote{
+    font-family:'Instrument Serif',serif;
+    font-style:italic;
+    font-size:clamp(32px,5vw,64px);
+    line-height:1.3;
+    color:var(--ink);
+  }
+  .quote blockquote .mark{
+    background:var(--highlight);
+    padding:0 10px;
+    font-style:normal;
+    font-family:'Fraunces',serif;
+    font-weight:900;
+  }
+  .quote cite{
+    display:block;
+    margin-top:30px;
+    font-family:'Caveat',cursive;
+    font-size:24px;
+    color:var(--accent);
+    font-style:normal;
+  }
+
+  /* ========== OUTRO ========== */
+  .outro{
+    background:var(--accent);
+    color:var(--paper);
+    padding:120px 6vw;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+  .outro h2{
+    font-family:'Fraunces',serif;
+    font-weight:900;
+    font-size:clamp(50px,8vw,120px);
+    line-height:.95;
+    letter-spacing:-.02em;
+    margin-bottom:20px;
+  }
+  .outro h2 em{
+    font-family:'Instrument Serif',serif;
+    font-style:italic;
+    font-weight:400;
+  }
+  .outro p{
+    font-family:'Caveat',cursive;
+    font-size:30px;
+    margin-bottom:50px;
+  }
+  .links{
+    display:flex;
+    gap:20px;
+    justify-content:center;
+    flex-wrap:wrap;
+  }
+  .links a{
+    font-family:'Fraunces',serif;
+    font-weight:700;
+    font-size:18px;
+    color:var(--paper);
+    text-decoration:none;
+    padding:14px 28px;
+    border:2px solid var(--paper);
+    transition:all .25s;
+  }
+  .links a:hover{
+    background:var(--paper);
+    color:var(--accent);
+    transform:rotate(-2deg);
+  }
+
+  footer{
+    background:var(--ink);
+    color:var(--muted);
+    padding:30px 6vw;
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:10px;
+  }
+  footer .heart{color:var(--accent-soft)}
+
+  @media (max-width:768px){
+    .about-inner{grid-template-columns:1fr;gap:50px}
+    .sticker{display:none}
+    nav ul{gap:16px;font-size:12px}
+    section,.hero,.about,.likes,.journal,.outro{padding-left:6vw;padding-right:6vw}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="brand">Introduction</div>
+  <ul>
+    <li><a href="#about">about</a></li>
+    <li><a href="#likes">stuff</a></li>
+    <li><a href="#journal">notes</a></li>
+    <li><a href="#contact">say hi</a></li>
+    <a href="index.html#self-intro" class="pill pill-ghost" style="color: rgb(0, 0, 0);text-decoration: none;">BackToStudio</a>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="sticker sticker-1">Life is unlimited.</div>
+  <div class="sticker sticker-2">currently: 16 &amp; lost</div>
+
+  <div class="hi">Hey. Hi, Stranger! <span class="wave">👋</span></div>
+  <h1>
+    i'm</main> <em>Steele</em>,<br>
+    Somehow, i think it could be<br><em>the final version.</em><br>
+  </h1>
+  <p class="lead">
+    I’m a student  <span class="underline">on the edge of adulthood</span>, dreaming of becoming a director. So far, I’ve watched more than 500 films and TV shows, usually drifting between laziness, sugar, and late-night inspiration.
+
+In 2025, I started digging a little deeper into who I am — and this website came out of that. Think of it as something I put together for myself: a place for thoughts, visuals, emotions, and fragments of me. I’ll probably keep adding to it over time. For now, this is me.</p>
+</section>
+
+<!-- NOW PLAYING -->
+<section class="now">
+  <div class="now-grid">
+    <div class="now-card">
+      <div class="emoji">🍰</div>
+      <div class="label">Birthday</div>
+      <div class="thing">2009.09.09</div>
+      <div class="by">when i grew up...</div>
+    </div>
+    <div class="now-card">
+      <div class="emoji">🎧</div>
+      <div class="label">Favourite Singger</div>
+      <div class="thing">Lady Gaga</div>
+      <div class="by">we're all little monsters!</div>
+    </div>
+    <div class="now-card">
+      <div class="emoji">📺</div>
+      <div class="label">Favourite Show</div>
+      <div class="thing">The Studio</div>
+      <div class="by">my dream life in Hollywood.</div>
+    </div>
+    <div class="now-card">
+      <div class="emoji">✏️</div>
+      <div class="label">working on</div>
+      <div class="thing">My Script & The World</div>
+      <div class="by">forever, probably.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-inner">
+    <div>
+      <h2>a bit <em>about me</em>, if you're curious.</h2>
+      <div class="about-text">
+        <p>Living in Beijing, my absolute go-to spot is the cinema. I’ve pretty much marked my territory at every theater in the city—there’s just something about that immersive vibe that hits different! When I’m not catching a flick, you’ll find me buried in architecture books at a bookstore, daydreaming about living all over the world. Honestly, I’d take a bustling cityscape over nature any day; you’ve gotta soak up that 'human' energy to make movies that actually feel alive.
+          </p>
+        <p></p>
+        <p>
+          <span class="handwrite">i'm still make something influential </span>,  and i think that's a feeling. "It's all about the journey, not the destination.
+        </p>
+      </div>
+    </div>
+
+<div class="polaroid">
+    <div class="tape"></div>
+    <div class="photo">
+        <img src="gy765e.jpg" style="width: 100%; height: auto; display: block;"> </div>
+    <div class="caption">me, probably tired</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LIKES -->
+<section class="likes" id="likes">
+  <h2><em>Find me more</em>, in specific way.</h2>
+  <div class="sub">// updated whenever i remember</div>
+  <div class="tag-cloud">
+    <span class="tag huge">Dream Univ: NYU</span>
+<span class="tag big accent">Dream Job: Director & Actor</span>
+<span class="tag">Dream Place: NYC</span>
+<span class="tag hand sky">Favourite National Park: Yosemite</span>
+<span class="tag big">Favourite Film: One Battle After Another</span>
+<span class="tag moss">Favourite TV: The Studio</span>
+<span class="tag">Favourite Musicals: Hamilton & Wicked</span>
+<span class="tag big accent">Favourite Stage Play: Stranger Things: First Shadow</span>
+<span class="tag">Favourite Male Actor: Gary Oldman</span>
+<span class="tag hand">Favourite Female Actor: Rose Byrne</span>
+<span class="tag sky">Favourite Writer: Vince Gilligan</span>
+<span class="tag">Favourite Director: Paul Thomas Anderson</span>
+<span class="tag huge">Favourite Singer: Lady Gaga</span>
+<span class="tag moss">Favourite Music: Abracadabra</span>
+<span class="tag big">Favourite Stream: Apple TV+</span>
+<span class="tag accent">Favourite Cinema: Emperor</span>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<section class="quote">
+  <blockquote>
+    "the point isn't to be <span class="mark">good</span>,<br>the point is to keep going."
+  </blockquote>
+  <cite>— something i wrote on a napkin</cite>
+</section>
+
+<!-- OUTRO -->
+<section class="outro" id="contact">
+  <h2>let's be <em>internet friends</em>.</h2>
+  <p>send me a video, a song, or a photo of your cat...</p>
+  <div class="links">
+    <a href="index.html#contact">Find the way to contact me</a>
+  </div>
+</section>
+
+<footer>
+ <a href="#brand" class="pill pill-ghost" style="color: white;text-decoration: none;">Back to the top</a>
+ <span>© 2026 &middot; STEO Studio</span>
+ <a href="index.html#self-intro" class="pill pill-ghost" style="color: white;text-decoration: none;">Back to STEO Studio</a>
+</footer>
+
+</body>
+</html>

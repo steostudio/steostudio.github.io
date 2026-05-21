@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Evening Reel — A Weekly of Cinema Criticism</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Spectral:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500&family=Archivo+Narrow:wght@400;500;700&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&family=UnifrakturCook:wght@700&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════
+   NEWSPAPER TOKENS
+   ══════════════════════════════════════════ */
+:root{
+  --paper:#f4ecd8;
+  --paper-2:#ece2c6;
+  --ink:#14110c;
+  --ink-soft:#4a4238;
+  --red:#9b1d1d;
+  --rule:rgba(20,17,12,.35);
+  --rule-soft:rgba(20,17,12,.2);
+
+  --display:'Playfair Display', 'Times New Roman', serif;
+  --body:'Spectral', 'Georgia', serif;
+  --cond:'Archivo Narrow', 'Arial Narrow', sans-serif;
+  --mono:'IBM Plex Mono', ui-monospace, monospace;
+  --black:'UnifrakturCook', 'Playfair Display', serif;
+  --ease:cubic-bezier(.22,.61,.36,1);
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--body);
+  background:var(--paper);
+  color:var(--ink);
+  line-height:1.55;
+  font-size:17px;
+  -webkit-font-smoothing:antialiased;
+  font-feature-settings:"onum","liga","dlig","kern";
+}
+
+/* newsprint texture */
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;
+  opacity:.22;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='280' height='280'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.88' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .55 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+
+/* selection */
+::selection{background:var(--red);color:var(--paper)}
+
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+em,i{font-style:italic}
+
+/* ══════════════════════════════════════════
+   TOP STRIP — edition line
+   ══════════════════════════════════════════ */
+.top-strip{
+  border-bottom:1px solid var(--ink);
+  font-family:var(--mono);font-size:11px;
+  letter-spacing:.12em;text-transform:uppercase;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:8px 28px;color:var(--ink-soft);
+}
+.top-strip b{color:var(--ink);font-weight:500}
+@media(max-width:680px){
+  .top-strip{padding:7px 16px;font-size:10px;letter-spacing:.06em}
+  .top-strip .hide-sm{display:none}
+}
+
+/* ══════════════════════════════════════════
+   MASTHEAD
+   ══════════════════════════════════════════ */
+.masthead{
+  padding:30px 28px 18px;
+  text-align:center;
+  border-bottom:4px double var(--ink);
+  position:relative;
+}
+.masthead .ornament{
+  font-family:var(--body);font-style:italic;font-size:12px;
+  letter-spacing:.38em;text-transform:uppercase;color:var(--ink-soft);
+  margin-bottom:6px;
+}
+.masthead .ornament::before,
+.masthead .ornament::after{content:'⸺';margin:0 14px;color:var(--red)}
+.mast-title{
+  font-family:var(--black);
+  font-weight:700;
+  font-size:clamp(56px,10vw,160px);
+  line-height:.95;letter-spacing:0;
+  color:var(--ink);
+  margin:6px 0 10px;
+}
+.mast-sub{
+  font-family:var(--display);font-style:italic;font-weight:400;
+  font-size:clamp(16px,2vw,22px);color:var(--ink);
+  letter-spacing:.02em;
+}
+.mast-sub b{font-weight:700}
+.mast-sub .red{color:var(--red);font-weight:700;font-style:italic}
+
+.mast-meta{
+  display:grid;grid-template-columns:1fr auto 1fr;
+  gap:20px;margin-top:22px;padding-top:14px;
+  border-top:1px solid var(--rule);
+  font-family:var(--mono);font-size:11px;
+  text-transform:uppercase;letter-spacing:.18em;color:var(--ink-soft);
+}
+.mast-meta .center{text-align:center}
+.mast-meta .right{text-align:right}
+.mast-meta b{color:var(--ink);font-weight:500}
+.mast-meta .price{
+  display:inline-block;background:var(--ink);color:var(--paper);
+  padding:3px 9px;font-weight:500;letter-spacing:.1em;
+}
+
+@media(max-width:680px){
+  .mast-meta{grid-template-columns:1fr;gap:4px;text-align:left}
+  .mast-meta .center,.mast-meta .right{text-align:left}
+}
+
+/* ══════════════════════════════════════════
+   SECTION BANNER
+   ══════════════════════════════════════════ */
+.section-banner{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 28px;
+  border-bottom:1px solid var(--ink);
+  background:var(--ink);color:var(--paper);
+}
+.section-banner .s-left{
+  font-family:var(--display);font-style:italic;font-weight:400;
+  font-size:clamp(22px,3vw,30px);
+}
+.section-banner .s-left b{font-weight:700;font-style:normal;letter-spacing:.02em}
+.section-banner .s-right{
+  font-family:var(--mono);font-size:11px;
+  letter-spacing:.2em;text-transform:uppercase;color:#d6c9a4;
+}
+@media(max-width:680px){.section-banner .s-right{display:none}}
+
+/* ══════════════════════════════════════════
+   ARTICLES WRAP
+   ══════════════════════════════════════════ */
+.paper{
+  max-width:1180px;margin:0 auto;
+  padding:40px 28px 80px;
+}
+
+/* ══════════════════════════════════════════
+   ARTICLE — SHARED
+   ══════════════════════════════════════════ */
+.article{
+  padding:28px 0 36px;
+  border-bottom:1px solid var(--rule);
+  position:relative;
+}
+.article:last-child{border-bottom:none}
+
+.kicker{
+  font-family:var(--cond);font-weight:700;
+  font-size:12px;letter-spacing:.28em;text-transform:uppercase;
+  color:var(--red);
+  display:flex;align-items:center;gap:14px;margin-bottom:14px;
+}
+.kicker::before{
+  content:'';width:38px;height:2px;background:var(--red);display:inline-block;
+}
+
+.headline{
+  font-family:var(--display);font-weight:700;
+  line-height:1.02;letter-spacing:-.015em;
+  color:var(--ink);margin-bottom:12px;
+  font-size:clamp(34px,4.2vw,58px);
+}
+.headline em{font-style:italic;font-weight:500}
+
+.deck{
+  font-family:var(--display);font-weight:400;font-style:italic;
+  font-size:clamp(17px,1.8vw,22px);line-height:1.4;
+  color:var(--ink-soft);max-width:820px;margin-bottom:22px;
+  letter-spacing:.005em;
+}
+.deck em{color:var(--red)}
+
+/* byline bar */
+.byline{
+  display:flex;align-items:center;flex-wrap:wrap;gap:10px 20px;
+  border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);
+  padding:10px 0;margin-bottom:26px;
+}
+.byline .author{
+  font-family:var(--mono);font-size:12px;text-transform:uppercase;
+  letter-spacing:.16em;
+}
+.byline .author .by{color:var(--red);margin-right:4px}
+.byline .author b{font-weight:500}
+.byline .stars{
+  font-family:var(--body);font-size:18px;color:var(--red);
+  letter-spacing:.08em;
+}
+.byline .stars .off{color:var(--rule-soft)}
+.byline .date{
+  font-family:var(--mono);font-size:11px;letter-spacing:.15em;
+  color:var(--ink-soft);text-transform:uppercase;margin-left:auto;
+}
+
+/* film info card */
+.film-card{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
+  gap:0;border:1px solid var(--ink);
+  margin-bottom:30px;
+}
+.film-card > div{
+  padding:11px 14px;
+  border-right:1px solid var(--rule);
+  font-family:var(--mono);font-size:11px;
+  letter-spacing:.12em;text-transform:uppercase;
+}
+.film-card > div:last-child{border-right:none}
+.film-card dt{color:var(--red);font-size:9.5px;margin-bottom:4px;letter-spacing:.22em}
+.film-card dd{
+  font-family:var(--body);font-size:14px;font-weight:500;
+  text-transform:none;letter-spacing:normal;color:var(--ink);
+}
+.film-card dd em{font-style:italic}
+
+/* figure */
+.figure{
+  margin:14px 0 20px;
+  position:relative;
+}
+.figure .frame{
+  aspect-ratio:21/8;background:var(--paper-2);
+  border:1px solid var(--ink);
+  position:relative;overflow:hidden;
+  box-shadow:inset 0 0 0 3px var(--paper), inset 0 0 0 4px var(--rule-soft);
+}
+.figure .frame img{width:100%;height:100%;object-fit:cover}
+.figure .frame::after{
+  content:'[ IMAGE · no plate supplied ]';
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:11px;letter-spacing:.25em;color:var(--ink-soft);
+  opacity:.6;pointer-events:none;text-transform:uppercase;
+}
+.figure .frame:has(img)::after{display:none}
+.figure figcaption{
+  font-family:var(--body);font-style:italic;font-size:13px;
+  color:var(--ink-soft);padding:6px 2px 0;
+  border-bottom:1px solid var(--rule-soft);padding-bottom:8px;
+  display:flex;justify-content:space-between;gap:20px;
+}
+.figure figcaption b{font-style:normal;font-weight:500;color:var(--ink)}
+
+/* lead keeps wider ratio */
+.article.lead .figure .frame{aspect-ratio:21/7}
+/* body columns */
+.body-text{
+  column-count:2;column-gap:36px;
+  column-rule:1px solid var(--rule-soft);
+  font-family:var(--body);font-weight:400;
+  font-size:17px;line-height:1.65;
+  text-align:justify;hyphens:auto;
+  letter-spacing:.003em;
+}
+.body-text p{margin-bottom:1em;orphans:2;widows:2}
+.body-text p + p{text-indent:1.6em}
+.body-text p.lede{text-indent:0}
+.body-text p.lede::first-letter{
+  font-family:var(--display);font-weight:900;
+  font-size:4.8em;line-height:.86;
+  float:left;padding:4px 8px 0 0;color:var(--red);
+}
+.body-text em{font-style:italic}
+.body-text .film-t{font-style:italic;font-weight:500}
+
+/* pull quote breaks out of columns */
+.pull{
+  column-span:all;
+  margin:26px auto;padding:22px 30px;
+  border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  font-family:var(--display);font-style:italic;font-weight:400;
+  font-size:clamp(22px,2.4vw,30px);line-height:1.3;
+  text-align:center;letter-spacing:-.005em;color:var(--ink);
+  max-width:760px;
+}
+.pull::before{content:'“';color:var(--red);margin-right:4px;font-size:1.2em;vertical-align:-.05em}
+.pull::after{content:'”';color:var(--red);margin-left:4px;font-size:1.2em;vertical-align:-.05em}
+
+/* verdict */
+.verdict{
+  column-span:all;
+  margin-top:30px;padding:16px 20px;
+  border:2px solid var(--ink);
+  background:var(--paper-2);
+  display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;
+}
+.verdict .v-lab{
+  font-family:var(--cond);font-weight:700;
+  text-transform:uppercase;letter-spacing:.22em;font-size:12px;
+  color:var(--red);flex-shrink:0;
+}
+.verdict .v-lab::after{content:'';display:inline-block;width:18px;height:1px;background:var(--red);vertical-align:middle;margin-left:10px}
+.verdict p{
+  font-family:var(--display);font-weight:500;font-style:italic;
+  font-size:18px;line-height:1.35;color:var(--ink);
+  margin:0;flex:1;min-width:200px;
+}
+
+/* signature */
+.signoff{
+  margin-top:22px;font-family:var(--mono);font-size:11px;
+  letter-spacing:.18em;text-transform:uppercase;
+  color:var(--ink-soft);
+  display:flex;justify-content:space-between;gap:10px;
+}
+.signoff .sig{font-family:var(--display);font-style:italic;font-size:22px;
+  color:var(--ink);letter-spacing:-.02em;text-transform:none;
+  transform:rotate(-3deg);display:inline-block}
+
+/* ══════════════════════════════════════════
+   LEAD VARIANT — first article is bigger
+   ══════════════════════════════════════════ */
+.article.lead{padding-top:20px}
+.article.lead .kicker{color:var(--red)}
+.article.lead .kicker::before{background:var(--red);width:60px;height:3px}
+.article.lead .headline{font-size:clamp(46px,7vw,96px);line-height:.96;letter-spacing:-.025em}
+.article.lead .deck{font-size:clamp(20px,2.2vw,28px);max-width:900px}
+.article.lead .figure .frame{aspect-ratio:21/9}
+
+/* ══════════════════════════════════════════
+   STANDARD — single column for short pieces
+   ══════════════════════════════════════════ */
+@media(max-width:820px){
+  .body-text{column-count:1;column-rule:none}
+  .pull{padding:18px 10px}
+  .film-card{grid-template-columns:1fr 1fr}
+  .film-card > div{border-right:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+  .film-card > div:nth-child(2n){border-right:none}
+}
+
+/* ══════════════════════════════════════════
+   DINGBAT SEPARATOR
+   ══════════════════════════════════════════ */
+.dingbat{
+  text-align:center;margin:10px 0 0;padding:20px 0;
+  color:var(--red);font-family:var(--body);
+  font-size:18px;letter-spacing:1em;
+}
+
+/* ══════════════════════════════════════════
+   COLOPHON
+   ══════════════════════════════════════════ */
+.colophon{
+  margin-top:40px;border-top:4px double var(--ink);
+  padding:32px 28px;max-width:1180px;margin-left:auto;margin-right:auto;
+  display:grid;grid-template-columns:2fr 1fr 1fr;gap:30px;
+}
+.colophon h5{
+  font-family:var(--cond);font-size:12px;
+  letter-spacing:.22em;text-transform:uppercase;
+  color:var(--red);margin-bottom:10px;
+}
+.colophon p,.colophon li{
+  font-family:var(--body);font-size:14px;line-height:1.7;
+  color:var(--ink-soft);
+}
+.colophon ul{list-style:none}
+.colophon ul li{border-bottom:1px dotted var(--rule-soft);padding:4px 0}
+.colophon a:hover{color:var(--red)}
+.colophon em{font-style:italic;color:var(--ink)}
+
+.coda{
+  text-align:center;padding:20px 28px 40px;
+  font-family:var(--mono);font-size:10.5px;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--ink-soft);
+  border-top:1px solid var(--rule-soft);
+  max-width:1180px;margin:0 auto;
+}
+.coda em{color:var(--red);font-style:italic;letter-spacing:.1em}
+
+@media(max-width:720px){
+  .colophon{grid-template-columns:1fr;padding:24px 18px}
+  .paper{padding:30px 18px 60px}
+}
+
+/* ══════════════════════════════════════════
+   REVEAL
+   ══════════════════════════════════════════ */
+.reveal{opacity:0;transform:translateY(24px);
+  transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+
+/* ══════════════════════════════════════════
+   SEARCH & FILTER BAR
+   ══════════════════════════════════════════ */
+.filter-bar-wrap{
+  background:var(--ink);
+  border-bottom:3px solid var(--red);
+}
+.filter-bar{
+  max-width:1180px;margin:0 auto;
+  padding:0 28px;
+  display:grid;
+  grid-template-columns:auto auto 1fr auto auto auto;
+  gap:0;
+}
+.filter-bar-label{
+  display:flex;align-items:center;
+  padding:0 18px 0 0;
+  border-right:1px solid rgba(255,255,255,.15);
+  font-family:var(--cond);font-size:11px;
+  letter-spacing:.28em;text-transform:uppercase;
+  color:var(--red);font-weight:700;
+  white-space:nowrap;
+}
+.filter-bar-label::before{
+  content:'§';
+  font-family:var(--body);font-style:italic;
+  font-size:18px;margin-right:10px;opacity:.7;
+}
+.filter-reset{
+  display:flex;align-items:center;justify-content:center;
+  width:44px;height:52px;
+  border:none;border-right:1px solid rgba(255,255,255,.15);
+  background:transparent;cursor:pointer;
+  color:rgba(255,255,255,.3);
+  font-size:17px;line-height:1;
+  transition:color .18s, background .18s;
+  flex-shrink:0;
+}
+.filter-reset:hover{background:var(--red);color:var(--paper)}
+.filter-reset[data-active="true"]{color:var(--red)}
+.filter-search-wrap{
+  position:relative;
+  border-right:1px solid rgba(255,255,255,.15);
+}
+.filter-search-wrap::before{
+  content:'↳';
+  position:absolute;left:14px;top:50%;transform:translateY(-50%);
+  font-family:var(--body);font-size:14px;
+  color:rgba(255,255,255,.3);pointer-events:none;
+}
+.filter-input{
+  width:100%;height:52px;
+  padding:0 14px 0 34px;
+  background:transparent;border:none;outline:none;
+  font-family:var(--mono);font-size:12px;
+  letter-spacing:.12em;text-transform:uppercase;
+  color:var(--paper);
+  caret-color:var(--red);
+}
+.filter-input::placeholder{
+  color:rgba(255,255,255,.28);
+  letter-spacing:.14em;
+}
+.filter-select{
+  height:52px;
+  padding:0 28px 0 14px;
+  background:transparent;border:none;border-left:1px solid rgba(255,255,255,.15);
+  outline:none;cursor:pointer;
+  font-family:var(--mono);font-size:11px;
+  letter-spacing:.15em;text-transform:uppercase;
+  color:rgba(255,255,255,.65);
+  appearance:none;-webkit-appearance:none;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6'><path d='M0 0l5 6 5-6z' fill='white' opacity='.3'/></svg>");
+  background-repeat:no-repeat;
+  background-position:right 10px center;
+  min-width:110px;
+  transition:color .18s, background .18s;
+}
+.filter-select:focus{color:var(--paper);background-color:rgba(255,255,255,.07)}
+.filter-select option{background:#1e1a13;color:var(--paper)}
+
+/* No-results message */
+.no-results{
+  display:none;
+  text-align:center;padding:80px 20px;
+  font-family:var(--display);font-style:italic;
+  font-size:clamp(20px,2.5vw,28px);color:var(--ink-soft);
+}
+.no-results b{display:block;font-family:var(--black);
+  font-size:clamp(40px,6vw,80px);color:var(--rule);
+  line-height:1;margin-bottom:16px;font-style:normal}
+#paper.empty ~ .no-results{display:block}
+#paper.empty{min-height:0;padding-bottom:0}
+
+/* Active filter chips */
+.filter-chips{
+  max-width:1180px;margin:0 auto;
+  padding:9px 28px;
+  display:flex;gap:8px;flex-wrap:wrap;align-items:center;
+  min-height:38px;
+  border-bottom:1px solid var(--rule-soft);
+  background:var(--paper-2);
+}
+.chip{
+  font-family:var(--mono);font-size:10px;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--paper);
+  background:var(--ink);padding:4px 10px;
+  display:flex;align-items:center;gap:6px;
+}
+.chip-label{color:#d6c9a4;margin-right:2px}
+.chip button{
+  background:none;border:none;cursor:pointer;
+  color:var(--red);font-size:12px;line-height:1;padding:0;
+  font-weight:700;
+}
+.filter-chips:empty::after{
+  content:'All issues · No filter active';
+  font-family:var(--mono);font-size:10px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--ink-soft);opacity:.4;
+}
+
+@media(max-width:720px){
+  .filter-bar{
+    grid-template-columns:auto auto 1fr auto auto;
+    padding:0 18px;
+  }
+  .filter-bar-label{display:none}
+  .filter-select:last-of-type{display:none}
+  .filter-chips{padding:8px 18px}
+}
+/* ══════════════════════════════════════════
+   PAGINATION
+   ══════════════════════════════════════════ */
+.pagination-wrap{
+  max-width:1180px;margin:0 auto;
+  padding:0 28px;
+}
+.pagination{
+  border-top:4px double var(--ink);
+  border-bottom:4px double var(--ink);
+  padding:18px 0;
+  display:flex;align-items:center;justify-content:center;
+  gap:0;
+  font-family:var(--mono);
+}
+.pg-btn{
+  display:flex;align-items:center;justify-content:center;
+  width:40px;height:40px;
+  border:none;background:transparent;cursor:pointer;
+  font-family:var(--mono);font-size:13px;letter-spacing:.05em;
+  color:var(--ink-soft);
+  transition:background .15s, color .15s;
+  position:relative;
+}
+.pg-btn:hover:not(:disabled){background:var(--ink);color:var(--paper)}
+.pg-btn:disabled{opacity:.25;cursor:default}
+.pg-btn.active{
+  background:var(--ink);color:var(--paper);
+  font-weight:700;
+}
+.pg-sep{
+  font-family:var(--body);font-style:italic;
+  color:var(--rule);padding:0 6px;font-size:16px;
+  user-select:none;
+}
+.pg-label{
+  font-family:var(--mono);font-size:10px;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--ink-soft);
+  padding:0 18px;
+}
+.pg-arrow{font-size:16px;line-height:1}
+@media(max-width:720px){
+  .pagination-wrap{padding:0 18px}
+  .pg-label{display:none}
+}
+</style>
+<body>
+
+<!-- ══════════════════════════════════════════
+     TOP STRIP
+     ══════════════════════════════════════════ -->
+<div class="top-strip">
+  <span><b>Vol. I</I></b> · <span class="hide-sm">No. 0001 · </span>Weekly</span>
+  <span class="hide-sm"><em>STEO Studio, 2026</em></span>
+  <span><b>Late Edition</b></span>
+  <a href="index.html#showcase">BACK TO STEO STUDIO</a></li>
+</div>
+
+<!-- ══════════════════════════════════════════
+     MASTHEAD
+     ══════════════════════════════════════════ -->
+<header class="masthead">
+  <div class="ornament">A Weekly of Cinema Criticism</div>
+  <h1 class="mast-title">The Evening Reel</h1>
+  <div class="mast-sub">
+    Reviews, <em>Dispatches</em> and <b>Unfashionable Opinions</b> from the <span class="red">Back Row</span>
+  </div>
+  <div class="mast-meta">
+    <div id="issueDate"><b>Thursday</b> — <span id="dateText"></span></div>
+    <div class="center"><span class="price">£ 2·50</span></div>
+    <div class="right">By Post to Subscribers · <b>Printed in London</b></div>
+  </div>
+</header>
+
+<!-- section banner -->
+<div class="section-banner">
+  <div class="s-left"><b>FILM</b> <em>&amp; Criticism</em></div>
+  <a href="https://www.notion.so/steostudio/Movies-1fa580cffdb980198679e8a1b74e7a89?source=copy_link">Click Here To Watch Full Article</a></li>
+  <div class="s-right">Page One · Lead &amp; Reviews</div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SEARCH & FILTER BAR
+     ══════════════════════════════════════════ -->
+<div class="filter-bar-wrap">
+<div class="filter-bar" id="filterBar">
+  <div class="filter-bar-label">Filter</div>
+  <button class="filter-reset" id="resetBtn" title="Clear all filters" data-active="false">↺</button>
+  <div class="filter-search-wrap">
+    <input class="filter-input" id="searchInput" type="search" placeholder="Search film, author, text…" autocomplete="off" spellcheck="false">
+  </div>
+  <select class="filter-select" id="yearSelect" title="Filter by year">
+    <option value="">All Years</option>
+  </select>
+  <select class="filter-select" id="monthSelect" title="Filter by month">
+    <option value="">All Months</option>
+    <option value="01">January</option>
+    <option value="02">February</option>
+    <option value="03">March</option>
+    <option value="04">April</option>
+    <option value="05">May</option>
+    <option value="06">June</option>
+    <option value="07">July</option>
+    <option value="08">August</option>
+    <option value="09">September</option>
+    <option value="10">October</option>
+    <option value="11">November</option>
+    <option value="12">December</option>
+  </select>
+  <select class="filter-select" id="filmSelect" title="Filter by film title">
+    <option value="">All Films</option>
+  </select>
+</div>
+</div>
+<div class="filter-chips" id="filterChips"></div>
+
+<!-- ══════════════════════════════════════════
+     ARTICLES
+     ══════════════════════════════════════════ -->
+<main class="paper" id="paper"></main>
+<div class="no-results" id="noResults">
+  <b>§</b>
+  No reviews match your selection.<br>
+  Try adjusting the filters above.
+</div>
+
+<!-- PAGINATION -->
+<div class="pagination-wrap" id="paginationWrap">
+  <nav class="pagination" id="pagination" aria-label="Issue pages"></nav>
+</div>
+
+<!-- COLOPHON -->
+<section class="colophon">
+  <div>
+    <h5>On This Publication</h5>
+    <p>
+      <em>The Evening Reel</em> is an independent weekly of film criticism, published on Sunday evenings and delivered, where possible, by hand. We review nothing we have not watched in full, and we watch nothing twice except under protest. Correspondence — particularly the disagreeing kind — is warmly received.
+    </p>
+  </div>
+  <div>
+    <h5>Correspondence</h5>
+    <ul>
+      <li><a href="mailto:editor@eveningreel.co">liuz48904@gmail.com</a></li>
+      <li><a href="index.html#contact">Letters to the Editor</a></li>
+      
+    </ul>
+  </div>
+  <div>
+    <h5>Contributors</h5>
+    <ul>
+      <li>Steele Lew · <em>chief critic</em></li>
+    
+    </ul>
+  </div>
+</section>
+
+<div class="coda">
+  <em>Finis</em> · © STEO The Evening Reel · <em>All opinions regretted in private, defended in public</em>
+</div>
+
+<script>
+/* ══════════════════════════════════════════
+   ARTICLES DATA — add / edit here
+   First entry becomes the LEAD article.
+   ══════════════════════════════════════════ */
+const ARTICLES = [
+  
+  {
+    kicker:'Lead Review · In Cinemas Now',
+    headline:'Watching <em>Violence</em>',
+    deck:'An American Fable of Media, Desire, and Collapse.',
+    author:'Steele',
+    stars:4,
+    date:'24 April 2026',        // ← 格式必须是"日 英文月名 年"
+    film:{
+      title:'Natural Born Killers',
+      director:'Oliver Stone',
+      year:'2026',
+      runtime:'122 min',
+      country:'United States',
+      cert:'R/18'
+    },
+    image:'https://image.tmdb.org/t/p/original/gGQvvkgiYf35FbG3K5Cw75m7KGt.jpg',
+    imgCaption:'<b>Plate I</b> — <i>Natural Born Killers</i> (1994).',
+    body:[
+      {lede:true, html:`Absolutely obsessed with how insane this film is. In an era flooded with mediocre, assembly-line widescreen productions, the artistic core of works like this deserves a much more solid place.`},
+      {html:`Its avant-garde style criticizes so many things while saying so much at the same time. The use of black-and-white versus color imagery creates a split between subjective emotion and objective reality. In a strange way, it even makes Euphoria Season 3’s soulless camerawork and soundtrack feel even emptier by comparison. The tone of the film gradually shifts from frantic exaggeration into something calmer and more restrained — although still chaotic — and across its years-spanning narrative, it suggests that the characters’ life force, driven heavily by sex and impulse, slowly fades away. This applies to almost every character, until after they escape, when some of that energy finally begins to recover.`},
+      {html:`The film uses media itself to criticize media. Television only cares about spectacle and ratings; nobody actually cares about human life. Everyone in the film is selfish in some way, but the talk show host’s desire is especially disturbing. His obsession does not come from compassion or curiosity about humanity — he treats the male protagonist’s murders as an object to display before the symbolic “Big Other,” simply to validate himself and feed his own ego.`},
+      {html:`At the same time, the film captures the unprecedented extremity and chaos brought by modern media. The prison riot erupts merely because of a live broadcast. In that sense, real video imagery can genuinely move people. The prisoners are emotionally consumed by what they watch; their desires are already there, and with only the slightest trigger, everything explodes. Meanwhile, the hypocritical host ultimately causes his own tragic ending.`},
+      {html:`Two people who should have received the death penalty continue wandering free. It feels both dystopian and painfully realistic. From a realist perspective, the long-term accumulation of social pressure and structural inequality in American society makes it impossible to truly control violence. You can even see hints of this in the protests outside the courthouse. Absolute freedom eventually leads toward destruction.`},
+      {html:`Within this social structure, patriarchy becomes unavoidable. Today’s systems of authority may include men, women, the elderly, and the young, but during that era, patriarchy was overwhelmingly male. It reminds me of Poor Things, where the brothel is framed through a male perspective that convinces society female sexuality is a betrayal, while male sexual freedom remains accepted. In this film, there are two especially disturbing examples: her father’s abuse, and the policeman sexually harassing her. That disgusting feeling of “I hold the power — obey or die” dominates the female protagonist’s entire life.`},
+      {html:`After meeting the male protagonist delivering meat, she transfers the emotional attachment she once had toward her father onto him. Even though he is a murderer, he does not embody the same oppressive patriarchal authority, and he is still capable of satisfying her emotionally.`},
+      {pull:`We're just... natural born killers.`},
+      {html:`   `},
+      {html:`Then there is the scene in the desert with the Native American man. He recognizes the “demon” inside the protagonist because he appears spiritually fractured or mentally absent. Later, the protagonist “accidentally” kills the very man who welcomed them in — an extremely direct metaphor. Since both protagonists come from tragic pasts, could all of this be forcefully interpreted as behavioral repetition or trauma reenactment? If we look at it through ordinary logic rather than symbolic metaphor, the explanation becomes much weaker.`},
+      {html:`Overall, the second-layer symbolic structure works incredibly well, even if the first-layer narrative structure itself is fairly ordinary. Still, visual language and soundtrack choices this explosive were rare even in the 1990s. Films like this are necessary once in a while to recover from the exhaustion of watching endless formulaic productions.`},
+      {html:`*This review write in Chinese, translated by ChatGPT.`}
+    ],
+    verdict:'A collapse of freedom under media-fueled violence.'
+  },
+
+  {
+    kicker:'Lead Review · In Cinemas Now',
+    headline:'Watching <em>Violence</em>',
+    deck:'An American Fable of Media, Desire, and Collapse.',
+    author:'Steele',
+    stars:4,
+    date:'24 April 2026',        // ← 格式必须是"日 英文月名 年"
+    film:{
+      title:'Natural Born Killers',
+      director:'Oliver Stone',
+      year:'2026',
+      runtime:'122 min',
+      country:'United States',
+      cert:'R/18'
+    },
+    image:'https://image.tmdb.org/t/p/original/gGQvvkgiYf35FbG3K5Cw75m7KGt.jpg',
+    imgCaption:'<b>Plate I</b> — <i>Natural Born Killers</i> (1994).',
+    body:[
+      {lede:true, html:`Absolutely obsessed with how insane this film is. In an era flooded with mediocre, assembly-line widescreen productions, the artistic core of works like this deserves a much more solid place.`},
+      {html:`Its avant-garde style criticizes so many things while saying so much at the same time. The use of black-and-white versus color imagery creates a split between subjective emotion and objective reality. In a strange way, it even makes Euphoria Season 3’s soulless camerawork and soundtrack feel even emptier by comparison. The tone of the film gradually shifts from frantic exaggeration into something calmer and more restrained — although still chaotic — and across its years-spanning narrative, it suggests that the characters’ life force, driven heavily by sex and impulse, slowly fades away. This applies to almost every character, until after they escape, when some of that energy finally begins to recover.`},
+      {html:`The film uses media itself to criticize media. Television only cares about spectacle and ratings; nobody actually cares about human life. Everyone in the film is selfish in some way, but the talk show host’s desire is especially disturbing. His obsession does not come from compassion or curiosity about humanity — he treats the male protagonist’s murders as an object to display before the symbolic “Big Other,” simply to validate himself and feed his own ego.`},
+      {html:`At the same time, the film captures the unprecedented extremity and chaos brought by modern media. The prison riot erupts merely because of a live broadcast. In that sense, real video imagery can genuinely move people. The prisoners are emotionally consumed by what they watch; their desires are already there, and with only the slightest trigger, everything explodes. Meanwhile, the hypocritical host ultimately causes his own tragic ending.`},
+      {html:`Two people who should have received the death penalty continue wandering free. It feels both dystopian and painfully realistic. From a realist perspective, the long-term accumulation of social pressure and structural inequality in American society makes it impossible to truly control violence. You can even see hints of this in the protests outside the courthouse. Absolute freedom eventually leads toward destruction.`},
+      {html:`Within this social structure, patriarchy becomes unavoidable. Today’s systems of authority may include men, women, the elderly, and the young, but during that era, patriarchy was overwhelmingly male. It reminds me of Poor Things, where the brothel is framed through a male perspective that convinces society female sexuality is a betrayal, while male sexual freedom remains accepted. In this film, there are two especially disturbing examples: her father’s abuse, and the policeman sexually harassing her. That disgusting feeling of “I hold the power — obey or die” dominates the female protagonist’s entire life.`},
+      {html:`After meeting the male protagonist delivering meat, she transfers the emotional attachment she once had toward her father onto him. Even though he is a murderer, he does not embody the same oppressive patriarchal authority, and he is still capable of satisfying her emotionally.`},
+      {pull:`We're just... natural born killers.`},
+      {html:`   `},
+      {html:`Then there is the scene in the desert with the Native American man. He recognizes the “demon” inside the protagonist because he appears spiritually fractured or mentally absent. Later, the protagonist “accidentally” kills the very man who welcomed them in — an extremely direct metaphor. Since both protagonists come from tragic pasts, could all of this be forcefully interpreted as behavioral repetition or trauma reenactment? If we look at it through ordinary logic rather than symbolic metaphor, the explanation becomes much weaker.`},
+      {html:`Overall, the second-layer symbolic structure works incredibly well, even if the first-layer narrative structure itself is fairly ordinary. Still, visual language and soundtrack choices this explosive were rare even in the 1990s. Films like this are necessary once in a while to recover from the exhaustion of watching endless formulaic productions.`},
+      {html:`*This review write in Chinese, translated by ChatGPT.`}
+    ],
+    verdict:'A collapse of freedom under media-fueled violence.'
+  },
+  
+  /* ─── 要加新影评 → 复制上面一整个 { ... } 粘到这里 ─── */
+
+];
+
+/* ══════════════════════════════════════════
+   RENDER
+   ══════════════════════════════════════════ */
+const paper = document.getElementById('paper');
+
+function stars(n){
+  const full = '★'.repeat(n);
+  const empty = '<span class="off">'+'★'.repeat(5-n)+'</span>';
+  return full + empty;
+}
+
+function filmCardHTML(f){
+  const rows = [
+    ['Film', `<em>${f.title}</em>`],
+    ['Director', f.director],
+    ['Year', f.year],
+    ['Runtime', f.runtime],
+    ['Origin', f.country],
+    ['Cert.', f.cert]
+  ];
+  return `<dl class="film-card">${
+    rows.map(([k,v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join('')
+  }</dl>`;
+}
+
+function bodyHTML(blocks){
+  return blocks.map(b => {
+    if (b.pull) return `<div class="pull">${b.pull}</div>`;
+    const cls = b.lede ? ' class="lede"' : '';
+    return `<p${cls}>${b.html}</p>`;
+  }).join('');
+}
+
+function figureHTML(a){
+  if (!a.image && !a.imgCaption) return '';
+  return `
+    <figure class="figure">
+      <div class="frame">${a.image?`<img src="${a.image}" alt="">`:''}</div>
+      ${a.imgCaption?`<figcaption>
+        <span>${a.imgCaption}</span>
+        ${a.imgCredit?`<b>${a.imgCredit}</b>`:''}
+      </figcaption>`:''}
+    </figure>`;
+}
+
+function articleHTML(a, isLead){
+  return `
+    <article class="article ${isLead?'lead':''} reveal">
+      <div class="kicker">${a.kicker}</div>
+      <h2 class="headline">${a.headline}</h2>
+      <p class="deck">${a.deck}</p>
+
+      <div class="byline">
+        <span class="author"><span class="by">By</span> <b>${a.author}</b></span>
+        <span class="stars">${stars(a.stars)}</span>
+        <span class="date">${a.date}</span>
+      </div>
+
+      ${filmCardHTML(a.film)}
+      ${figureHTML(a)}
+
+      <div class="body-text">
+        ${bodyHTML(a.body)}
+        ${a.verdict?`<div class="verdict">
+          <span class="v-lab">Verdict</span>
+          <p>${a.verdict}</p>
+        </div>`:''}
+      </div>
+
+      <div class="signoff">
+        <span>— ${a.author}, for The Evening Reel</span>
+        <span class="sig">${a.author.split(' ').map(w=>w[0]).join('.')}.</span>
+      </div>
+    </article>
+  `;
+}
+
+/* ── date helper ── */
+function parseArticleDate(dateStr){
+  const d = new Date(dateStr);
+  if (!isNaN(d)) return d;
+  return null;
+}
+
+/* ── populate year dropdown from data ── */
+(function buildYearSelect(){
+  const years = [...new Set(ARTICLES.map(a => {
+    const d = parseArticleDate(a.date);
+    return d ? d.getFullYear() : null;
+  }).filter(Boolean))].sort((a,b)=>b-a);
+  const sel = document.getElementById('yearSelect');
+  years.forEach(y => {
+    const o = document.createElement('option');
+    o.value = y; o.textContent = y;
+    sel.appendChild(o);
+  });
+})();
+
+/* ── populate film dropdown from data ── */
+(function buildFilmSelect(){
+  const titles = [...new Set(ARTICLES.map(a => a.film.title))].sort();
+  const sel = document.getElementById('filmSelect');
+  titles.forEach(t => {
+    const o = document.createElement('option');
+    o.value = t; o.textContent = t;
+    sel.appendChild(o);
+  });
+})();
+
+/* ══════════════════════════════════════════
+   PAGINATION STATE
+   Page 1 = lead only (1 article)
+   Page 2+ = 5 articles each
+   ══════════════════════════════════════════ */
+const ARTICLES_PER_PAGE = 5;
+const state = { q:'', year:'', month:'', film:'', page:1 };
+
+/* Given a filtered list, return the slice for the current page */
+function getPageSlice(list, page){
+  if (list.length === 0) return [];
+  if (page === 1) return [list[0]];          /* page 1: lead only */
+  const rest = list.slice(1);                /* remaining articles */
+  const start = (page - 2) * ARTICLES_PER_PAGE;
+  return rest.slice(start, start + ARTICLES_PER_PAGE);
+}
+
+/* Total page count for a filtered list */
+function totalPages(list){
+  if (list.length === 0) return 0;
+  if (list.length === 1) return 1;
+  return 1 + Math.ceil((list.length - 1) / ARTICLES_PER_PAGE);
+}
+
+/* ── filter ── */
+function getFiltered(){
+  return ARTICLES.filter(a => {
+    const d = parseArticleDate(a.date);
+    if (state.year  && d && d.getFullYear() !== +state.year) return false;
+    if (state.month && d && String(d.getMonth()+1).padStart(2,'0') !== state.month) return false;
+    if (state.film  && a.film.title !== state.film) return false;
+    if (state.q){
+      const needle = state.q.toLowerCase();
+      const hay = [
+        a.headline, a.deck, a.author,
+        a.film.title, a.film.director,
+        a.kicker, a.date,
+        ...(a.body||[]).map(b => b.html||b.pull||'')
+      ].join(' ').toLowerCase().replace(/<[^>]+>/g,'');
+      if (!hay.includes(needle)) return false;
+    }
+    return true;
+  });
+}
+
+/* ── render chips ── */
+const MONTH_NAMES=['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+function renderChips(){
+  const chips = document.getElementById('filterChips');
+  chips.innerHTML = '';
+  function chip(label, val, key){
+    const c = document.createElement('div');
+    c.className = 'chip';
+    c.innerHTML = `<span class="chip-label">${label}</span>${val}<button title="Remove" onclick="clearFilter('${key}')">×</button>`;
+    chips.appendChild(c);
+  }
+  if (state.q)     chip('Search', state.q, 'q');
+  if (state.year)  chip('Year', state.year, 'year');
+  if (state.month) chip('Month', MONTH_NAMES[+state.month-1], 'month');
+  if (state.film)  chip('Film', state.film, 'film');
+  const anyActive = !!(state.q || state.year || state.month || state.film);
+  document.getElementById('resetBtn').dataset.active = anyActive;
+}
+
+window.clearFilter = function(key){
+  state[key] = '';
+  state.page = 1;
+  if (key==='q')     document.getElementById('searchInput').value = '';
+  if (key==='year')  document.getElementById('yearSelect').value  = '';
+  if (key==='month') document.getElementById('monthSelect').value = '';
+  if (key==='film')  document.getElementById('filmSelect').value  = '';
+  applyFilter();
+};
+
+/* ── render pagination ── */
+function renderPagination(list){
+  const nav = document.getElementById('pagination');
+  const wrap = document.getElementById('paginationWrap');
+  const total = totalPages(list);
+
+  if (total <= 1){ nav.innerHTML = ''; wrap.style.display = 'none'; return; }
+  wrap.style.display = '';
+
+  const p = state.page;
+  let html = '';
+
+  /* prev arrow */
+  html += `<button class="pg-btn pg-arrow" ${p===1?'disabled':''} onclick="goPage(${p-1})" title="Previous page">‹</button>`;
+
+  /* page 1 always shown */
+  html += `<button class="pg-btn ${p===1?'active':''}" onclick="goPage(1)">I</button>`;
+
+  /* separator if gap */
+  if (p > 4) html += `<span class="pg-sep">…</span>`;
+
+  /* window around current (pages 2+) */
+  const romans = ['','I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII','XIII','XIV','XV'];
+  for (let i = 2; i <= total; i++){
+    const near = Math.abs(i - p) <= 1 || i === total;
+    if (!near) continue;
+    if (i === total && p < total - 2) html += `<span class="pg-sep">…</span>`;
+    const label = i <= romans.length - 1 ? romans[i] : i;
+    html += `<button class="pg-btn ${p===i?'active':''}" onclick="goPage(${i})">${label}</button>`;
+  }
+
+  /* next arrow */
+  html += `<button class="pg-btn pg-arrow" ${p===total?'disabled':''} onclick="goPage(${p+1})" title="Next page">›</button>`;
+
+  /* page label */
+  html += `<span class="pg-label">Page ${p} of ${total}</span>`;
+
+  nav.innerHTML = html;
+}
+
+window.goPage = function(n){
+  state.page = n;
+  applyFilter(true);
+};
+
+/* ── reveal observer ── */
+let revealObserver;
+function attachReveal(){
+  if (revealObserver) revealObserver.disconnect();
+  revealObserver = new IntersectionObserver(es => {
+    es.forEach(e => { if (e.isIntersecting){ e.target.classList.add('in'); revealObserver.unobserve(e.target); } });
+  }, {threshold:.08, rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+}
+
+/* ── main render ── */
+function applyFilter(scrollUp){
+  const list = getFiltered();
+  renderChips();
+
+  /* clamp page */
+  const total = totalPages(list);
+  if (state.page > total && total > 0) state.page = total;
+  if (state.page < 1) state.page = 1;
+
+  if (list.length === 0){
+    paper.innerHTML = '';
+    paper.classList.add('empty');
+    document.getElementById('noResults').style.display = 'block';
+    document.getElementById('paginationWrap').style.display = 'none';
+  } else {
+    paper.classList.remove('empty');
+    document.getElementById('noResults').style.display = 'none';
+
+    const slice = getPageSlice(list, state.page);
+    const isPage1 = state.page === 1;
+
+    paper.innerHTML = slice.map((a, i) =>
+      articleHTML(a, isPage1 && i === 0) +
+      (i < slice.length - 1 ? '<div class="dingbat">§ · § · §</div>' : '')
+    ).join('');
+
+    renderPagination(list);
+    attachReveal();
+
+    if (scrollUp){
+      document.getElementById('paper').scrollIntoView({behavior:'smooth', block:'start'});
+    }
+  }
+}
+
+/* ── wire controls ── */
+let searchTimer;
+document.getElementById('searchInput').addEventListener('input', e => {
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(() => { state.q = e.target.value.trim(); state.page = 1; applyFilter(); }, 220);
+});
+document.getElementById('yearSelect').addEventListener('change',  e => { state.year  = e.target.value; state.page = 1; applyFilter(); });
+document.getElementById('monthSelect').addEventListener('change', e => { state.month = e.target.value; state.page = 1; applyFilter(); });
+document.getElementById('filmSelect').addEventListener('change',  e => { state.film  = e.target.value; state.page = 1; applyFilter(); });
+document.getElementById('resetBtn').addEventListener('click', () => {
+  state.q = state.year = state.month = state.film = '';
+  state.page = 1;
+  document.getElementById('searchInput').value = '';
+  document.getElementById('yearSelect').value  = '';
+  document.getElementById('monthSelect').value = '';
+  document.getElementById('filmSelect').value  = '';
+  applyFilter();
+});
+
+/* ── initial render ── */
+applyFilter();
+
+/* date in masthead */
+const d = new Date();
+document.getElementById('dateText').textContent =
+  d.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+</script>
+
+</body>
+</html>

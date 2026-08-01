@@ -1,0 +1,1644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>1 minute random topic Speaking Practice</title>
+    <style>
+        /* ============================================================
+           TOKENS — 精致纸墨风格
+           ============================================================ */
+        :root {
+            --bg-page: #f7f2eb;
+            --bg-card: #fcf9f4;
+            --bg-card-shade: #f3ede4;
+            --ink-dark: #2a2119;
+            --ink-soft: #4a3d31;
+            --ink-muted: #7a6b5b;
+            --accent: #b86a3e;
+            --accent-light: #d9b69a;
+            --accent-pale: #f0e1d4;
+            --border-light: #e3d7c8;
+            --shadow-soft: 0 4px 16px rgba(42, 33, 25, 0.07);
+            --shadow-card: 0 8px 32px -12px rgba(42, 33, 25, 0.15);
+            --font-display: "Georgia", "Times New Roman", serif;
+            --font-body: -apple-system, "Segoe UI", "Roboto", "Helvetica", "Arial", sans-serif;
+            --font-mono: "SF Mono", "Consolas", "Monaco", monospace;
+            --radius: 12px;
+            --radius-sm: 8px;
+            --transition: 240ms ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-size: 17px;
+        }
+
+        body {
+            min-height: 100%;
+            background: var(--bg-page);
+            color: var(--ink-dark);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            padding: 1.25rem;
+        }
+
+        button {
+            font-family: inherit;
+            cursor: pointer;
+            border: none;
+            background: none;
+            color: inherit;
+            font-size: inherit;
+        }
+
+        #app {
+            position: relative;
+            min-height: calc(100vh - 2.5rem);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px 12px;
+        }
+
+        /* ============================================================
+           PROGRESS PILL
+           ============================================================ */
+        .progress-pill {
+            position: fixed;
+            top: 24px;
+            right: 28px;
+            z-index: 20;
+            padding: 6px 20px;
+            border-radius: 40px;
+            background: rgba(255, 252, 247, 0.88);
+            backdrop-filter: blur(6px);
+            border: 1px solid var(--border-light);
+            font-family: var(--font-body);
+            font-size: 0.8rem;
+            color: var(--ink-soft);
+            box-shadow: var(--shadow-soft);
+            transition: opacity 0.3s;
+            letter-spacing: 0.01em;
+        }
+        .progress-pill.is-hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* ============================================================
+           ERROR BANNER
+           ============================================================ */
+        .error-banner {
+            position: fixed;
+            inset: 0;
+            z-index: 50;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            text-align: center;
+            padding: 32px;
+            background: rgba(247, 242, 235, 0.96);
+            backdrop-filter: blur(8px);
+        }
+        .error-banner.is-hidden {
+            display: none;
+        }
+        .error-title {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: #b14a3a;
+            margin: 0;
+        }
+        .error-detail {
+            max-width: 440px;
+            color: var(--ink-soft);
+            line-height: 1.6;
+        }
+
+        /* ============================================================
+           SCREENS
+           ============================================================ */
+        .screen {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: scale(0.97);
+            pointer-events: none;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        .screen.is-active {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+            position: relative;
+        }
+
+        .screen-inner {
+            width: 100%;
+            max-width: 680px;
+            text-align: center;
+            padding: 24px 16px;
+        }
+
+        .eyebrow {
+            font-family: var(--font-body);
+            font-size: 0.7rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--ink-muted);
+            margin: 0 0 14px;
+            font-weight: 500;
+            opacity: 0.7;
+        }
+
+        /* ============================================================
+           HOME SCREEN
+           ============================================================ */
+        .display-title {
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: clamp(2.2rem, 5.5vw, 3.2rem);
+            line-height: 1.2;
+            max-width: 30ch;
+            white-space: nowrap;
+            margin: 10px 0px 40px;
+            letter-spacing: -0.01em;
+            color: var(--ink-dark);
+        }
+        .display-sub {
+            font-family: var(--font-body);
+            font-size: 1.05rem;
+            color: var(--ink-soft);
+            line-height: 1.7;
+            max-width: 480px;
+            margin: 0 auto 10px;
+            font-weight: 400;
+        }
+        .display-sub strong {
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        .btn {
+            border: 1px solid var(--border-light);
+            border-radius: 40px;
+            font-weight: 500;
+            font-size: 1rem;
+            padding: 14px 34px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: rgba(255, 252, 247, 0.6);
+            backdrop-filter: blur(2px);
+            color: var(--ink-dark);
+            transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
+            box-shadow: var(--shadow-soft);
+            line-height: 1;
+        }
+        .btn:active {
+            transform: scale(0.97);
+        }
+        .btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .btn:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #fcf9f4;
+            border-color: var(--accent);
+            box-shadow: 0 4px 16px rgba(184, 106, 62, 0.3);
+        }
+        .btn-primary:hover:not(:disabled) {
+            background: #a55d35;
+            border-color: #a55d35;
+            box-shadow: 0 6px 20px rgba(184, 106, 62, 0.35);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            border-color: var(--border-light);
+            color: var(--ink-soft);
+            backdrop-filter: none;
+            box-shadow: none;
+        }
+        .btn-ghost:hover {
+            background: rgba(255, 252, 247, 0.6);
+            border-color: var(--accent-light);
+        }
+
+        .btn-small {
+            font-size: 0.78rem;
+            padding: 4px 12px;
+            border-radius: 20px;
+            border: 1px solid var(--border-light);
+            background: transparent;
+            color: var(--ink-soft);
+        }
+        .btn-small:hover {
+            background: rgba(255, 252, 247, 0.6);
+            border-color: var(--accent-light);
+        }
+        .btn-danger {
+            border-color: #e5c4bc;
+            color: #b14a3a;
+        }
+        .btn-danger:hover {
+            background: #f5e8e4;
+            border-color: #d48a7a;
+        }
+
+        .btn-hint {
+            font-family: var(--font-mono);
+            font-size: 0.6rem;
+            opacity: 0.5;
+            border: 1px solid currentColor;
+            border-radius: 3px;
+            padding: 0 6px;
+            font-weight: 400;
+        }
+
+        .btn-stamp {
+            margin: 0 auto;
+        }
+
+        .button-row {
+            display: flex;
+            gap: 14px;
+            margin-top: 28px;
+        }
+        .btn-half {
+            flex: 1 1 0;
+        }
+
+        /* ============================================================
+           INDEX CARD
+           ============================================================ */
+        .card-stage {
+            perspective: 1200px;
+            margin: 0 auto;
+        }
+        .index-card {
+            position: relative;
+            min-height: 200px;
+            transform-style: preserve-3d;
+            transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.3, 1);
+        }
+        .index-card.is-flipping {
+            transform: rotateY(180deg);
+        }
+
+        .index-card-face {
+            position: relative;
+            min-height: 200px;
+            background: var(--bg-card);
+            background-image: linear-gradient(145deg, #fcf9f4 0%, #f3ede4 100%);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-card), 0 1px 0 rgba(255, 252, 247, 0.6) inset;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 36px 32px 58px;
+            backface-visibility: hidden;
+            border: 1px solid #e5d8c8;
+        }
+        .index-card-face::before {
+            content: "";
+            position: absolute;
+            top: 42px;
+            left: 56px;
+            right: 24px;
+            border-top: 1.5px solid #c9b8a4;
+            opacity: 0.3;
+        }
+        .index-card-face::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 38px;
+            border-left: 1.5px solid #c9b8a4;
+            opacity: 0.25;
+        }
+        .index-card-holes {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 38px;
+        }
+        .index-card-holes span {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--ink-dark);
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.35);
+            display: block;
+            opacity: 0.5;
+        }
+
+        .index-card-topic {
+            font-family: var(--font-display);
+            font-style: italic;
+            font-weight: 500;
+            font-size: clamp(1.25rem, 4.2vw, 1.9rem);
+            line-height: 1.4;
+            color: var(--ink-dark);
+            margin: 0;
+        }
+
+        /* ============================================================
+           PRESENTATION SCREEN
+           ============================================================ */
+        .presentation-topic {
+            font-family: var(--font-display);
+            font-style: italic;
+            font-size: clamp(1.25rem, 3.6vw, 1.6rem);
+            color: var(--ink-dark);
+            max-width: 500px;
+            margin: 0 auto 32px;
+            line-height: 1.4;
+        }
+
+        .timer-wrap {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+        }
+        .timer-ring {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+        .timer-ring-track {
+            fill: none;
+            stroke: #e8dfd2;
+            stroke-width: 5;
+        }
+        .timer-ring-progress {
+            fill: none;
+            stroke: var(--accent);
+            stroke-width: 5;
+            stroke-linecap: round;
+            stroke-dasharray: 553;
+            stroke-dashoffset: 0;
+            transition: stroke-dashoffset 1s linear, stroke 0.4s ease;
+        }
+        .timer-ring-progress.is-urgent {
+            stroke: #c45a42;
+            animation: pulse-ring 1s ease-in-out infinite;
+        }
+
+        @keyframes pulse-ring {
+            0%,
+            100% {
+                filter: drop-shadow(0 0 0 rgba(196, 90, 66, 0));
+            }
+            50% {
+                filter: drop-shadow(0 0 12px rgba(196, 90, 66, 0.3));
+            }
+        }
+
+        .timer-readout {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+        }
+        #timer-display {
+            font-family: var(--font-mono);
+            font-size: 2.4rem;
+            font-weight: 400;
+            letter-spacing: 0.04em;
+            color: var(--ink-dark);
+        }
+        #timer-display.is-urgent {
+            color: #c45a42;
+        }
+        .timer-caption {
+            font-family: var(--font-body);
+            font-size: 0.65rem;
+            color: var(--ink-muted);
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            font-weight: 400;
+        }
+
+        .time-up {
+            margin-top: 28px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+            animation: rise-in 0.5s ease both;
+        }
+        .time-up.is-hidden {
+            display: none;
+        }
+        .time-up-title {
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: 1.5rem;
+            color: var(--accent);
+            margin: 0;
+        }
+
+        @keyframes rise-in {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
+        @media (max-width: 520px) {
+            .button-row {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .index-card-face {
+                padding: 32px 18px 24px 44px;
+                min-height: 170px;
+            }
+            .index-card-face::before {
+                top: 34px;
+                left: 42px;
+            }
+            .index-card-face::after {
+                left: 30px;
+            }
+            .index-card-holes {
+                gap: 30px;
+                left: 10px;
+            }
+            .index-card-holes span {
+                width: 7px;
+                height: 7px;
+            }
+            .timer-wrap {
+                width: 160px;
+                height: 160px;
+            }
+            #timer-display {
+                font-size: 2rem;
+            }
+            .progress-pill {
+                top: 16px;
+                right: 16px;
+                padding: 4px 14px;
+                font-size: 0.7rem;
+            }
+            .settings-toggle {
+                top: 16px;
+                left: 16px;
+                width: 38px;
+                height: 38px;
+                font-size: 1rem;
+            }
+            html {
+                font-size: 15px;
+            }
+            body {
+                padding: 0.5rem;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .screen,
+            .index-card,
+            .timer-ring-progress,
+            .btn,
+            .time-up {
+                transition: none !important;
+                animation: none !important;
+            }
+        }
+
+        /* ============================================================
+           SETTINGS PANEL
+           ============================================================ */
+        .settings-toggle {
+            position: fixed;
+            top: 24px;
+            left: 28px;
+            z-index: 30;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            border: 1px solid var(--border-light);
+            background: rgba(255, 252, 247, 0.75);
+            backdrop-filter: blur(4px);
+            color: var(--ink-soft);
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s, transform 0.15s;
+            box-shadow: var(--shadow-soft);
+        }
+        .settings-toggle:hover {
+            background: rgba(255, 252, 247, 0.95);
+        }
+        .settings-toggle:active {
+            transform: scale(0.94);
+        }
+
+        .settings-panel {
+            position: fixed;
+            top: 80px;
+            left: 28px;
+            z-index: 30;
+            width: min(380px, calc(100vw - 56px));
+            max-height: calc(100vh - 110px);
+            overflow-y: auto;
+            background: rgba(255, 252, 247, 0.97);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius);
+            padding: 22px 24px 20px;
+            box-shadow: 0 20px 56px -16px rgba(42, 33, 25, 0.2);
+            animation: rise-in 0.3s ease both;
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent-light) transparent;
+        }
+        .settings-panel::-webkit-scrollbar {
+            width: 4px;
+        }
+        .settings-panel::-webkit-scrollbar-thumb {
+            background: var(--accent-light);
+            border-radius: 6px;
+        }
+        .settings-panel.is-hidden {
+            display: none;
+        }
+
+        .settings-title {
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin: 0 0 2px;
+            color: var(--ink-dark);
+        }
+        .settings-topic-info {
+            font-size: 0.85rem;
+            color: var(--ink-muted);
+            margin: 0 0 16px;
+        }
+
+        .btn-block {
+            width: 100%;
+            padding: 11px 18px;
+            font-size: 0.9rem;
+            margin-top: 6px;
+            border-radius: 40px;
+        }
+
+        .import-status {
+            min-height: 1.2em;
+            margin: 10px 0 0;
+            font-size: 0.8rem;
+            color: var(--accent);
+        }
+        .import-status.is-error {
+            color: #b14a3a;
+        }
+
+        .settings-hint {
+            margin: 12px 0 0;
+            font-size: 0.8rem;
+            line-height: 1.6;
+            color: var(--ink-muted);
+        }
+        .settings-divider {
+            border: none;
+            border-top: 0px solid var(--border-light);
+            margin: 0px 0;
+        }
+
+        .list-manager {
+            margin-top: 6px;
+        }
+        .list-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 6px 6px 10px;
+            border-radius: var(--radius-sm);
+            margin-bottom: 3px;
+            background: rgba(255, 252, 247, 0.3);
+            transition: background 0.15s;
+        }
+        .list-item.active {
+            background: rgba(184, 106, 62, 0.08);
+            border-left: 3px solid var(--accent);
+        }
+        .list-item:hover {
+            background: rgba(255, 252, 247, 0.6);
+        }
+        .list-name {
+            flex: 1;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--ink-dark);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            cursor: pointer;
+            padding: 2px 0;
+            text-align: left;
+        }
+        .list-name:hover {
+            color: var(--accent);
+        }
+        .list-actions {
+            display: flex;
+            gap: 3px;
+            flex-shrink: 0;
+        }
+        .list-actions .btn-small {
+            font-size: 0.7rem;
+            padding: 2px 8px;
+        }
+        .list-badge {
+            font-size: 0.7rem;
+            color: var(--ink-muted);
+            background: rgba(0, 0, 0, 0.04);
+            padding: 0 8px;
+            border-radius: 12px;
+            flex-shrink: 0;
+        }
+
+        .list-rename-input {
+            background: transparent;
+            border: 1px solid var(--border-light);
+            border-radius: 4px;
+            color: var(--ink-dark);
+            padding: 2px 6px;
+            font-size: 0.85rem;
+            width: 110px;
+            font-family: var(--font-body);
+        }
+        .list-rename-input:focus {
+            outline: 1px solid var(--accent);
+        }
+
+        .list-actions .btn-small.confirm {
+            background: var(--accent);
+            color: #fcf9f4;
+            border-color: var(--accent);
+        }
+        .list-actions .btn-small.cancel {
+            border-color: var(--border-light);
+        }
+
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 4px;
+        }
+        .history-toggle {
+            background: none;
+            border: none;
+            color: var(--accent);
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            padding: 4px 0;
+            font-family: var(--font-body);
+        }
+        .history-toggle:hover {
+            text-decoration: underline;
+        }
+        .history-list {
+            margin-top: 8px;
+            max-height: 200px;
+            overflow-y: auto;
+            padding-right: 4px;
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent-light) transparent;
+        }
+        .history-list::-webkit-scrollbar {
+            width: 3px;
+        }
+        .history-list::-webkit-scrollbar-thumb {
+            background: var(--accent-light);
+            border-radius: 6px;
+        }
+        .history-list.is-hidden {
+            display: none;
+        }
+        .history-item {
+            font-size: 0.85rem;
+            padding: 4px 0;
+            border-bottom: 0px solid rgba(0, 0, 0, 0.04);
+            color: var(--ink-dark);
+            word-break: break-word;
+            text-align: left;
+        }
+        .history-item:last-child {
+            border-bottom: none;
+        }
+        .history-empty {
+            font-size: 0.85rem;
+            color: var(--ink-muted);
+            padding: 8px 0;
+            font-style: italic;
+            text-align: left;
+        }
+        .history-count {
+            font-size: 0.75rem;
+            color: var(--ink-muted);
+            margin-left: 4px;
+        }
+
+        .reset-section {
+            margin-top: 10px;
+            padding-top: 12px;
+            border-top: 1px solid var(--border-light);
+        }
+        .reset-section .btn {
+            color: #b14a3a;
+            border-color: #e5c4bc;
+            font-size: 0.85rem;
+            padding: 8px 20px;
+        }
+        .reset-section .btn:hover {
+            background: #f5e8e4;
+            border-color: #d48a7a;
+        }
+
+        @media (max-width: 520px) {
+            .settings-panel {
+                left: 14px;
+                right: 14px;
+                width: auto;
+                top: 68px;
+                max-height: calc(100vh - 84px);
+                padding: 18px;
+            }
+            .list-rename-input {
+                width: 70px;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-L2LESWJ5CY"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-L2LESWJ5CY');
+</script>
+    <div id="app">
+
+        <!-- ==========================================================
+        SETTINGS TOGGLE + PANEL
+        ========================================================== -->
+        <button id="btn-settings-toggle" class="settings-toggle" type="button" aria-label="Settings" aria-expanded="false" aria-controls="settings-panel">
+            <span aria-hidden="true">⚙</span>
+        </button>
+
+        <div id="settings-panel" class="settings-panel is-hidden">
+            <p class="settings-title">Settings</p>
+            <p class="settings-topic-info" id="settings-topic-info">Current list · 0 topics</p>
+
+            <!-- List manager -->
+            <div class="list-manager" id="list-manager"></div>
+
+            <!-- Import as new list -->
+            <button id="btn-import-as-new" class="btn btn-ghost btn-block" style="margin-top:10px;">Import(.txt)</button>
+            <input type="file" id="import-file-input" accept=".txt,text/plain" hidden />
+            <p class="import-status" id="import-status"></p>
+           
+
+            <hr class="settings-divider" />
+
+            <div class="history-header">
+                <span style="font-weight:600;color:var(--ink-dark);font-size:0.95rem;">History</span>
+                <span class="history-count" id="history-count">(0)</span>
+                <button id="btn-toggle-history" class="history-toggle">Show</button>
+            </div>
+            <div id="history-list" class="history-list is-hidden"></div>
+
+            <!-- Reset current list -->
+            <div class="reset-section">
+                <button id="btn-reset-list" class="btn btn-small" style="width:auto;padding:6px 20px;border-color:#e5c4bc;color:#b14a3a;">
+                    ↺ Reset Current Progress
+                </button>
+                <span style="font-size:0.7rem;color:var(--ink-muted);margin-left:10px;"></span>
+            </div>
+        </div>
+
+        <!-- ==========================================================
+        PROGRESS PILL
+        ========================================================== -->
+        <div id="progress-pill" class="progress-pill is-hidden">
+            <span id="progress-text">0 / 0 reviewed</span>
+        </div>
+
+        <!-- ==========================================================
+        ERROR BANNER
+        ========================================================== -->
+        <div id="error-banner" class="error-banner is-hidden" role="alert">
+            <p class="error-title">Oops</p>
+            <p class="error-detail" id="error-detail-text">
+                Something went wrong. Please try reopening or check your lists.
+            </p>
+        </div>
+
+        <!-- ==========================================================
+        HOME SCREEN
+        ========================================================== -->
+        <section id="screen-home" class="screen is-active">
+            <div class="screen-inner home-inner">
+                
+                 <p class="display-sub">
+                    Draw a concept from your list and speak about it for <strong>
+                </p>
+                <h1 class="display-title">1 Minute Random Topic<br />Speaking Practice<br /> </h1>
+                <button id="btn-start" class="btn btn-primary btn-stamp" disabled>
+                    <span>Choose a Random Topic</span>
+                    <span class="btn-hint">Enter</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- ==========================================================
+        TOPIC SELECTION SCREEN
+        ========================================================== -->
+        <section id="screen-topic" class="screen">
+            <div class="screen-inner topic-inner">
+                <p class="eyebrow">Your topic</p>
+
+                <div class="card-stage">
+                    <div class="index-card" id="index-card">
+                        <div class="index-card-face">
+                            <div class="index-card-holes">
+                                <span></span><span></span><span></span>
+                            </div>
+                            <p class="index-card-topic" id="topic-text">&nbsp;</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="button-row" id="selection-buttons">
+                    <button id="btn-another" class="btn btn-ghost btn-half">Choose Another</button>
+                    <button id="btn-speak" class="btn btn-primary btn-half">
+                        Present
+                        <span class="btn-hint">Space</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================================
+        PRESENTATION SCREEN
+        ========================================================== -->
+        <section id="screen-presentation" class="screen">
+            <div class="screen-inner presentation-inner">
+                <p class="eyebrow">Speaking on</p>
+                <p class="presentation-topic" id="presentation-topic-text">&nbsp;</p>
+
+                <div class="timer-wrap" id="timer-wrap">
+                    <svg class="timer-ring" viewBox="0 0 200 200">
+                        <circle class="timer-ring-track" cx="100" cy="100" r="88" />
+                        <circle class="timer-ring-progress" id="timer-ring-progress" cx="100" cy="100" r="88" />
+                    </svg>
+                    <div class="timer-readout">
+                        <span id="timer-display">01:00</span>
+                        <span class="timer-caption" id="timer-caption">Space to pause</span>
+                    </div>
+                </div>
+
+                <div class="time-up is-hidden" id="time-up">
+                    <p class="time-up-title">Time’s Up</p>
+                    <button id="btn-return-home" class="btn btn-primary">Return Home</button>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        "use strict";
+
+        /* ==============================================================
+           CONSTANTS & STATE
+           ============================================================== */
+        const LISTS_STORAGE_KEY = "apPsych.lists";
+        const CURRENT_LIST_KEY = "apPsych.currentListId";
+        const TIMER_SECONDS = 60;
+        const RING_CIRCUMFERENCE = 2 * Math.PI * 88;
+
+        let state = {
+            lists: {},
+            currentListId: null,
+            allTopics: [],
+            completed: new Set(),
+            queue: [],
+            currentTopic: null,
+            timer: {
+                remaining: TIMER_SECONDS,
+                intervalId: null,
+                isPaused: false,
+                isRunning: false,
+            },
+        };
+
+        /* ==============================================================
+           DOM REFERENCES
+           ============================================================== */
+        const el = {
+            errorBanner: document.getElementById("error-banner"),
+            errorDetailText: document.getElementById("error-detail-text"),
+            progressPill: document.getElementById("progress-pill"),
+            progressText: document.getElementById("progress-text"),
+
+            screens: {
+                home: document.getElementById("screen-home"),
+                topic: document.getElementById("screen-topic"),
+                presentation: document.getElementById("screen-presentation"),
+            },
+
+            btnStart: document.getElementById("btn-start"),
+            btnAnother: document.getElementById("btn-another"),
+            btnSpeak: document.getElementById("btn-speak"),
+            btnReturnHome: document.getElementById("btn-return-home"),
+
+            indexCard: document.getElementById("index-card"),
+            topicText: document.getElementById("topic-text"),
+            presentationTopicText: document.getElementById("presentation-topic-text"),
+
+            timerDisplay: document.getElementById("timer-display"),
+            timerCaption: document.getElementById("timer-caption"),
+            timerRingProgress: document.getElementById("timer-ring-progress"),
+            timeUp: document.getElementById("time-up"),
+
+            btnSettingsToggle: document.getElementById("btn-settings-toggle"),
+            settingsPanel: document.getElementById("settings-panel"),
+            settingsTopicInfo: document.getElementById("settings-topic-info"),
+            importStatus: document.getElementById("import-status"),
+
+            listManager: document.getElementById("list-manager"),
+            btnImportAsNew: document.getElementById("btn-import-as-new"),
+            importFileInput: document.getElementById("import-file-input"),
+
+            btnToggleHistory: document.getElementById("btn-toggle-history"),
+            historyList: document.getElementById("history-list"),
+            historyCount: document.getElementById("history-count"),
+
+            btnResetList: document.getElementById("btn-reset-list"),
+        };
+
+        /* ==============================================================
+           PERSISTENCE
+           ============================================================== */
+        function loadLists() {
+            try {
+                const data = localStorage.getItem(LISTS_STORAGE_KEY);
+                if (data) {
+                    const parsed = JSON.parse(data);
+                    if (typeof parsed === 'object' && parsed !== null) return parsed;
+                }
+            } catch (_) { /* ignore */ }
+            return null;
+        }
+
+        function saveLists() {
+            try {
+                const data = {};
+                for (const id in state.lists) {
+                    const list = state.lists[id];
+                    data[id] = {
+                        id: list.id,
+                        name: list.name,
+                        topics: list.topics,
+                        completed: list.completed.slice(),
+                    };
+                }
+                localStorage.setItem(LISTS_STORAGE_KEY, JSON.stringify(data));
+            } catch (_) { /* ignore */ }
+        }
+
+        function loadCurrentListId() {
+            try {
+                const id = localStorage.getItem(CURRENT_LIST_KEY);
+                if (id && state.lists[id]) return id;
+            } catch (_) { /* ignore */ }
+            return null;
+        }
+
+        function saveCurrentListId(id) {
+            try {
+                localStorage.setItem(CURRENT_LIST_KEY, id);
+            } catch (_) { /* ignore */ }
+        }
+
+        /* ==============================================================
+           INIT — 没有任何预设话题，只创建一个空列表
+           ============================================================== */
+        function initLists() {
+            const stored = loadLists();
+            if (stored && Object.keys(stored).length > 0) {
+                state.lists = stored;
+            } else {
+                // 创建一个空列表，名称为 "My List"，话题为空
+                const defaultId = 'list_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6);
+                state.lists[defaultId] = {
+                    id: defaultId,
+                    name: 'My List',
+                    topics: [],
+                    completed: [],
+                };
+                saveLists();
+            }
+
+            let currentId = loadCurrentListId();
+            if (!currentId || !state.lists[currentId]) {
+                currentId = Object.keys(state.lists)[0];
+                saveCurrentListId(currentId);
+            }
+            state.currentListId = currentId;
+            loadListIntoState(currentId);
+            renderListManager();
+            updateProgressDisplay();
+            updateSettingsTopicInfo();
+            renderHistory();
+            // 如果话题数为0，禁用按钮
+            if (state.allTopics.length === 0) {
+                el.btnStart.disabled = true;
+            } else {
+                el.btnStart.disabled = false;
+            }
+        }
+
+        function loadListIntoState(listId) {
+            const list = state.lists[listId];
+            if (!list) return;
+            state.allTopics = list.topics.slice();
+            state.completed = new Set(list.completed || []);
+            buildQueueForCycle();
+            state.currentTopic = null;
+            showScreen('home');
+            stopTimer();
+            updateProgressDisplay();
+            renderHistory();
+            if (state.allTopics.length === 0) {
+                el.btnStart.disabled = true;
+            } else {
+                el.btnStart.disabled = false;
+            }
+        }
+
+        /* ==============================================================
+           QUEUE
+           ============================================================== */
+        function fisherYatesShuffle(arr) {
+            const a = arr.slice();
+            for (let i = a.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [a[i], a[j]] = [a[j], a[i]];
+            }
+            return a;
+        }
+
+        function buildQueueForCycle() {
+            if (state.allTopics.length === 0) {
+                state.queue = [];
+                return;
+            }
+            const remaining = state.allTopics.filter((t) => !state.completed.has(t));
+            if (remaining.length === 0) {
+                state.completed.clear();
+                persistCompletedForCurrentList();
+                state.queue = fisherYatesShuffle(state.allTopics);
+            } else {
+                state.queue = fisherYatesShuffle(remaining);
+            }
+        }
+
+        function persistCompletedForCurrentList() {
+            const list = state.lists[state.currentListId];
+            if (!list) return;
+            list.completed = [...state.completed];
+            saveLists();
+        }
+
+        /* ==============================================================
+           UI UPDATES
+           ============================================================== */
+        function updateProgressDisplay() {
+            const total = state.allTopics.length;
+            const done = state.completed.size;
+            if (total === 0) {
+                el.progressPill.classList.add("is-hidden");
+                return;
+            }
+            el.progressPill.classList.remove("is-hidden");
+            el.progressText.textContent = `${done} / ${total} reviewed`;
+            updateHistoryCount();
+        }
+
+        function updateSettingsTopicInfo() {
+            const list = state.lists[state.currentListId];
+            if (!list) return;
+            el.settingsTopicInfo.textContent = `${list.name} · ${list.topics.length} topics`;
+        }
+
+        /* ==============================================================
+           LIST MANAGER
+           ============================================================== */
+        function renderListManager() {
+            const container = el.listManager;
+            container.innerHTML = '';
+            const ids = Object.keys(state.lists);
+            if (ids.length === 0) {
+                // 理论不会发生，但以防万一
+                container.innerHTML = '<div style="color:var(--ink-muted);font-size:0.85rem;">No lists. Import one to start.</div>';
+                return;
+            }
+            ids.forEach(id => {
+                const list = state.lists[id];
+                const div = document.createElement('div');
+                div.className = 'list-item' + (id === state.currentListId ? ' active' : '');
+
+                const nameSpan = document.createElement('span');
+                nameSpan.className = 'list-name';
+                nameSpan.textContent = list.name;
+                nameSpan.title = list.name;
+                nameSpan.addEventListener('click', () => switchToList(id));
+
+                const badge = document.createElement('span');
+                badge.className = 'list-badge';
+                badge.textContent = `${list.topics.length}`;
+
+                const actions = document.createElement('div');
+                actions.className = 'list-actions';
+
+                const renameBtn = document.createElement('button');
+                renameBtn.className = 'btn-small';
+                renameBtn.textContent = '✎';
+                renameBtn.title = 'Rename';
+                renameBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    startRename(id);
+                });
+
+                const delBtn = document.createElement('button');
+                delBtn.className = 'btn-small btn-danger';
+                delBtn.textContent = '✕';
+                delBtn.title = 'Delete';
+                if (ids.length === 1) {
+                    delBtn.disabled = true;
+                    delBtn.style.opacity = '0.3';
+                }
+                delBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    deleteList(id);
+                });
+
+                actions.appendChild(renameBtn);
+                actions.appendChild(delBtn);
+
+                div.appendChild(nameSpan);
+                div.appendChild(badge);
+                div.appendChild(actions);
+                container.appendChild(div);
+            });
+        }
+
+        function startRename(listId) {
+            const list = state.lists[listId];
+            if (!list) return;
+            const items = el.listManager.querySelectorAll('.list-item');
+            let targetItem = null;
+            for (const item of items) {
+                if (item.querySelector('.list-name')?.textContent === list.name) {
+                    targetItem = item;
+                    break;
+                }
+            }
+            if (!targetItem) return;
+            const nameSpan = targetItem.querySelector('.list-name');
+            const actions = targetItem.querySelector('.list-actions');
+            nameSpan.style.display = 'none';
+            const input = document.createElement('input');
+            input.className = 'list-rename-input';
+            input.type = 'text';
+            input.value = list.name;
+            input.maxLength = 40;
+            targetItem.insertBefore(input, actions);
+
+            const confirmBtn = document.createElement('button');
+            confirmBtn.className = 'btn-small confirm';
+            confirmBtn.textContent = '✓';
+            confirmBtn.addEventListener('click', () => {
+                const newName = input.value.trim();
+                if (newName) {
+                    list.name = newName;
+                    saveLists();
+                    renderListManager();
+                    updateSettingsTopicInfo();
+                } else {
+                    renderListManager();
+                }
+            });
+            const cancelBtn = document.createElement('button');
+            cancelBtn.className = 'btn-small cancel';
+            cancelBtn.textContent = '✕';
+            cancelBtn.addEventListener('click', () => {
+                renderListManager();
+            });
+            actions.prepend(confirmBtn);
+            actions.prepend(cancelBtn);
+            input.focus();
+            input.select();
+        }
+
+        function switchToList(listId) {
+            if (listId === state.currentListId) return;
+            stopTimer();
+            state.currentListId = listId;
+            saveCurrentListId(listId);
+            loadListIntoState(listId);
+            renderListManager();
+            updateProgressDisplay();
+            updateSettingsTopicInfo();
+            renderHistory();
+            showScreen('home');
+        }
+
+        function deleteList(listId) {
+            const ids = Object.keys(state.lists);
+            if (ids.length <= 1) {
+                alert('Cannot delete the last list.');
+                return;
+            }
+            if (!confirm(`Delete list "${state.lists[listId].name}"?`)) return;
+            delete state.lists[listId];
+            saveLists();
+            if (listId === state.currentListId) {
+                const newId = Object.keys(state.lists)[0];
+                state.currentListId = newId;
+                saveCurrentListId(newId);
+                loadListIntoState(newId);
+            } else {
+                renderListManager();
+                updateSettingsTopicInfo();
+            }
+            renderListManager();
+            updateProgressDisplay();
+        }
+
+        /* ==============================================================
+           IMPORT AS NEW LIST
+           ============================================================== */
+        function importAsNewList(file) {
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = () => {
+                const raw = String(reader.result || '');
+                const topics = raw.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+                if (topics.length === 0) {
+                    el.importStatus.textContent = 'File contained no topics.';
+                    el.importStatus.classList.add('is-error');
+                    return;
+                }
+                const defaultName = file.name.replace(/\.[^.]+$/, '') || 'Imported List';
+                const name = prompt('Name for the new list:', defaultName);
+                if (name === null) return;
+                const trimmed = name.trim() || 'Imported List';
+                let dup = false;
+                for (const id in state.lists) {
+                    if (state.lists[id].name.toLowerCase() === trimmed.toLowerCase()) {
+                        dup = true;
+                        break;
+                    }
+                }
+                if (dup) {
+                    el.importStatus.textContent = 'A list with that name already exists.';
+                    el.importStatus.classList.add('is-error');
+                    return;
+                }
+                const id = 'list_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6);
+                state.lists[id] = {
+                    id,
+                    name: trimmed,
+                    topics: topics,
+                    completed: [],
+                };
+                saveLists();
+                renderListManager();
+                state.currentListId = id;
+                saveCurrentListId(id);
+                loadListIntoState(id);
+                updateSettingsTopicInfo();
+                updateProgressDisplay();
+                renderHistory();
+                showScreen('home');
+                el.importStatus.textContent = `Imported ${topics.length} topics as "${trimmed}".`;
+                el.importStatus.classList.remove('is-error');
+            };
+            reader.onerror = () => {
+                el.importStatus.textContent = 'Error reading file.';
+                el.importStatus.classList.add('is-error');
+            };
+            reader.readAsText(file);
+        }
+
+        /* ==============================================================
+           RESET CURRENT LIST (start over)
+           ============================================================== */
+        function resetCurrentList() {
+            const list = state.lists[state.currentListId];
+            if (!list) return;
+            if (!confirm(`Reset "${list.name}"?\nAll completed history will be cleared.`)) return;
+            list.completed = [];
+            state.completed = new Set();
+            persistCompletedForCurrentList();
+            loadListIntoState(state.currentListId);
+            renderHistory();
+            updateProgressDisplay();
+            showScreen('home');
+        }
+
+        /* ==============================================================
+           HISTORY
+           ============================================================== */
+        function renderHistory() {
+            const list = el.historyList;
+            while (list.firstChild) list.removeChild(list.firstChild);
+
+            const completedArray = [...state.completed];
+            if (completedArray.length === 0) {
+                const empty = document.createElement('div');
+                empty.className = 'history-empty';
+                empty.textContent = 'No topics completed yet in this list.';
+                list.appendChild(empty);
+            } else {
+                completedArray.forEach((topic) => {
+                    const item = document.createElement('div');
+                    item.className = 'history-item';
+                    item.textContent = topic;
+                    list.appendChild(item);
+                });
+            }
+            updateHistoryCount();
+        }
+
+        function updateHistoryCount() {
+            el.historyCount.textContent = `(${state.completed.size})`;
+        }
+
+        function toggleHistory() {
+            const list = el.historyList;
+            const btn = el.btnToggleHistory;
+            if (list.classList.contains('is-hidden')) {
+                list.classList.remove('is-hidden');
+                btn.textContent = 'Hide';
+                renderHistory();
+            } else {
+                list.classList.add('is-hidden');
+                btn.textContent = 'Show';
+            }
+        }
+
+        /* ==============================================================
+           SCREENS & NAVIGATION
+           ============================================================== */
+        function showScreen(name) {
+            Object.entries(el.screens).forEach(([key, node]) => {
+                node.classList.toggle('is-active', key === name);
+            });
+        }
+
+        function beginTopicSelection() {
+            if (state.allTopics.length === 0) return;
+            if (state.queue.length === 0) buildQueueForCycle();
+            state.currentTopic = state.queue[0] || null;
+            if (!state.currentTopic) {
+                buildQueueForCycle();
+                state.currentTopic = state.queue[0] || null;
+            }
+            renderTopicCard(state.currentTopic);
+            showScreen('topic');
+        }
+
+        function renderTopicCard(topic) {
+            el.topicText.textContent = topic || '(no topic)';
+        }
+
+        function chooseAnotherTopic() {
+            if (!state.currentTopic || state.queue.length <= 1) return;
+            const discarded = state.queue.shift();
+            state.queue.push(discarded);
+            state.currentTopic = state.queue[0];
+            el.indexCard.classList.add('is-flipping');
+            setTimeout(() => {
+                renderTopicCard(state.currentTopic);
+                el.indexCard.classList.remove('is-flipping');
+            }, 240);
+        }
+
+        function confirmStartSpeaking() {
+            if (!state.currentTopic) return;
+            state.queue.shift();
+            state.completed.add(state.currentTopic);
+            persistCompletedForCurrentList();
+            updateProgressDisplay();
+            renderHistory();
+
+            el.presentationTopicText.textContent = state.currentTopic;
+            showScreen('presentation');
+            resetTimeUpUI();
+            startTimer();
+        }
+
+        /* ==============================================================
+           TIMER
+           ============================================================== */
+        function startTimer() {
+            stopTimer();
+            state.timer.remaining = TIMER_SECONDS;
+            state.timer.isPaused = false;
+            state.timer.isRunning = true;
+            renderTimer();
+            state.timer.intervalId = setInterval(tickTimer, 1000);
+        }
+
+        function tickTimer() {
+            state.timer.remaining -= 1;
+            renderTimer();
+            if (state.timer.remaining <= 0) {
+                stopTimer();
+                onTimerComplete();
+            }
+        }
+
+        function stopTimer() {
+            if (state.timer.intervalId !== null) {
+                clearInterval(state.timer.intervalId);
+                state.timer.intervalId = null;
+            }
+            state.timer.isRunning = false;
+        }
+
+        function togglePauseResume() {
+            if (!state.timer.isRunning && !state.timer.isPaused) return;
+            if (state.timer.isPaused) {
+                state.timer.isPaused = false;
+                state.timer.isRunning = true;
+                state.timer.intervalId = setInterval(tickTimer, 1000);
+                el.timerCaption.textContent = 'Space to pause';
+            } else {
+                clearInterval(state.timer.intervalId);
+                state.timer.intervalId = null;
+                state.timer.isPaused = true;
+                state.timer.isRunning = false;
+                el.timerCaption.textContent = 'Space to resume';
+            }
+        }
+
+        function renderTimer() {
+            const { remaining } = state.timer;
+            const mins = String(Math.floor(remaining / 60)).padStart(2, '0');
+            const secs = String(remaining % 60).padStart(2, '0');
+            el.timerDisplay.textContent = `${mins}:${secs}`;
+            const fraction = Math.max(remaining, 0) / TIMER_SECONDS;
+            el.timerRingProgress.style.strokeDashoffset =
+                String(RING_CIRCUMFERENCE * (1 - fraction));
+            const urgent = remaining <= 10 && remaining > 0;
+            el.timerDisplay.classList.toggle('is-urgent', urgent);
+            el.timerRingProgress.classList.toggle('is-urgent', urgent);
+        }
+
+        function onTimerComplete() {
+            el.timerDisplay.textContent = '00:00';
+            el.timerCaption.textContent = 'Done';
+            el.timeUp.classList.remove('is-hidden');
+        }
+
+        function resetTimeUpUI() {
+            el.timeUp.classList.add('is-hidden');
+            el.timerCaption.textContent = 'Space to pause';
+        }
+
+        function goHome() {
+            stopTimer();
+            state.timer.isPaused = false;
+            showScreen('home');
+        }
+
+        /* ==============================================================
+           SETTINGS TOGGLE
+           ============================================================== */
+        function toggleSettings() {
+            const panel = el.settingsPanel;
+            const isOpen = !panel.classList.contains('is-hidden');
+            panel.classList.toggle('is-hidden', isOpen);
+            el.btnSettingsToggle.setAttribute('aria-expanded', String(!isOpen));
+            if (!isOpen) {
+                el.historyList.classList.add('is-hidden');
+                el.btnToggleHistory.textContent = 'Show';
+            }
+        }
+
+        /* ==============================================================
+           EVENT WIRING
+           ============================================================== */
+        el.btnStart.addEventListener('click', beginTopicSelection);
+        el.btnAnother.addEventListener('click', chooseAnotherTopic);
+        el.btnSpeak.addEventListener('click', confirmStartSpeaking);
+        el.btnReturnHome.addEventListener('click', goHome);
+
+        el.btnSettingsToggle.addEventListener('click', toggleSettings);
+
+        el.btnImportAsNew.addEventListener('click', () => el.importFileInput.click());
+        el.importFileInput.addEventListener('change', (e) => {
+            const file = e.target.files && e.target.files[0];
+            if (file) importAsNewList(file);
+            e.target.value = '';
+        });
+
+        el.btnToggleHistory.addEventListener('click', toggleHistory);
+
+        el.btnResetList.addEventListener('click', resetCurrentList);
+
+        document.addEventListener('keydown', (e) => {
+            const active = Object.entries(el.screens).find(
+                ([, node]) => node.classList.contains('is-active')
+            )?.[0];
+
+            if (e.key === 'Escape') {
+                e.preventDefault();
+                if (!el.settingsPanel.classList.contains('is-hidden')) {
+                    el.settingsPanel.classList.add('is-hidden');
+                    el.btnSettingsToggle.setAttribute('aria-expanded', 'false');
+                    el.historyList.classList.add('is-hidden');
+                    el.btnToggleHistory.textContent = 'Show';
+                } else {
+                    goHome();
+                }
+                return;
+            }
+
+            if (active === 'home' && e.key === 'Enter' && !el.btnStart.disabled) {
+                e.preventDefault();
+                beginTopicSelection();
+                return;
+            }
+
+            if (active === 'topic' && e.code === 'Space') {
+                e.preventDefault();
+                confirmStartSpeaking();
+                return;
+            }
+
+            if (active === 'presentation' && e.code === 'Space' && el.timeUp.classList.contains('is-hidden')) {
+                e.preventDefault();
+                togglePauseResume();
+            }
+        });
+
+        /* ==============================================================
+           START
+           ============================================================== */
+        initLists();
+    </script>
+
+</body>
+</html>

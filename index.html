@@ -21,7 +21,10 @@
 
 /* ─── RESET ──────────────────────────────── */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
+html.lenis,html.lenis body{height:auto}
+html.lenis.lenis-smooth{scroll-behavior:auto!important}
+html.lenis.lenis-stopped{overflow:hidden}
+html.lenis.lenis-scrolling iframe{pointer-events:none}
 body{font-family:var(--font);background:var(--bg);color:var(--t1);
   -webkit-font-smoothing:antialiased;overflow-x:hidden;line-height:1.5}
 
@@ -685,7 +688,41 @@ footer a:hover{color:var(--t1)}
   <p>See you on the world.  © 2026 STEO Studio &nbsp;·&nbsp; <a href="#home">Back to the top ↑</a>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/lenis@1/dist/lenis.min.js"></script>
 <script>
+/* ── LENIS 阻尼质感平滑滚动 ─────────────── */
+(function(){
+  const lenis = new Lenis({
+    duration: 1.35,               // 数值越大，惯性拖尾越明显
+    easing: t => 1 - Math.pow(1 - t, 4), // easeOutQuart，先快后慢，带"刹车"阻尼感
+    lerp: 0.1,                    // 越小越"粘稠"，滚轮/触控实时阻尼插值系数
+    wheelMultiplier: 0.9,
+    touchMultiplier: 1.3,
+    smoothWheel: true,
+    syncTouch: false,
+  });
+
+  function raf(time){
+    lenis.raf(time);
+    requestAnimationFrame(raf);
+  }
+  requestAnimationFrame(raf);
+
+  // 让站内锚点跳转也走同样的阻尼缓动，而不是浏览器默认的瞬间跳转
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener('click', e => {
+      const targetId = link.getAttribute('href');
+      const target = document.querySelector(targetId);
+      if (target){
+        e.preventDefault();
+        lenis.scrollTo(target, { offset: -16, duration: 1.5, easing: t => 1 - Math.pow(1 - t, 4) });
+      }
+    });
+  });
+
+  window.lenis = lenis;
+})();
+
 (function(){
   const nav      = document.getElementById('nav');
   const burger   = document.getElementById('burger');
@@ -776,3 +813,4 @@ function openWork(id, el) {
 </script>
 </body>
 </html>
+2133
